@@ -1,6 +1,25 @@
-type Post {
+type Book {
   id: ID! @id
-  published: Boolean! @default(value: false)
-  title: String!
-  content: String!
+  sourceId: ID!
+  ownerId: ID!
+  price: String!
+  condition: String!
+  comment: String
+  contact: String!
+  location: String
+}
+
+type BookPublishingInfo {
+  id: ID! @id
+  image: String
+  author: String
+  rating: String
+  availableBooks: [Book]!
+}
+
+type Owner {
+  id: ID! @id
+  alias: String!
+  avatar: String
+  ownedBooks: [Book]!
 }

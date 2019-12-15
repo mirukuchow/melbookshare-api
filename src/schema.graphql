@@ -1,18 +1,60 @@
+# type Query {
+#   feed: [Post!]!
+#   drafts: [Post!]!
+#   post(id: ID!): Post
+# }
+
+# type Mutation {
+#   createDraft(title: String!, content: String): Post
+#   deletePost(id: ID!): Post
+#   publish(id: ID!): Post
+# }
+
+# type Post {
+#   id: ID!
+#   published: Boolean!
+#   title: String!
+#   content: String!
+# }
+
 type Query {
-  feed: [Post!]!
-  drafts: [Post!]!
-  post(id: ID!): Post
+  getAllBooks: [Book]!
 }
 
 type Mutation {
-  createDraft(title: String!, content: String): Post
-  deletePost(id: ID!): Post
-  publish(id: ID!): Post
+  addBook(
+    sourceId: ID!,
+    ownerId: ID!,
+    price: String!,
+    condition: String,
+    comment: String,
+    contact: String!,
+    location: String
+  ): Book
 }
 
-type Post {
+type Book {
   id: ID!
-  published: Boolean!
-  title: String!
-  content: String!
+  sourceId: ID!
+  ownerId: ID!
+  price: String!
+  condition: String
+  comment: String
+  contact: String!
+  location: String
+}
+
+type BookPublishingInfo {
+  id: ID!
+  image: String
+  author: String
+  rating: String
+  availableBooks: [Book]!
+}
+
+type Owner {
+  id: ID!
+  alias: String!
+  avatar: String
+  ownedBooks: [Book]!
 }
