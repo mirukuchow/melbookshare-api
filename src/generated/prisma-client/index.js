@@ -13,7 +13,7 @@ var models = [
     embedded: false
   },
   {
-    name: "Owner",
+    name: "User",
     embedded: false
   }
 ];

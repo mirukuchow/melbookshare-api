@@ -11,7 +11,7 @@ type AggregateCopy {
   count: Int!
 }
 
-type AggregateOwner {
+type AggregateUser {
   count: Int!
 }
 
@@ -21,9 +21,10 @@ type BatchPayload {
 
 type Book {
   id: ID!
+  sourceId: ID!
   image: String
   author: String
-  rating: String
+  rating: Float
   availableBooks(where: CopyWhereInput, orderBy: CopyOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Copy!]
 }
 
@@ -35,9 +36,10 @@ type BookConnection {
 
 input BookCreateInput {
   id: ID
+  sourceId: ID!
   image: String
   author: String
-  rating: String
+  rating: Float
   availableBooks: CopyCreateManyWithoutBookInput
 }
 
@@ -48,9 +50,10 @@ input BookCreateOneWithoutAvailableBooksInput {
 
 input BookCreateWithoutAvailableBooksInput {
   id: ID
+  sourceId: ID!
   image: String
   author: String
-  rating: String
+  rating: Float
 }
 
 type BookEdge {
@@ -61,6 +64,8 @@ type BookEdge {
 enum BookOrderByInput {
   id_ASC
   id_DESC
+  sourceId_ASC
+  sourceId_DESC
   image_ASC
   image_DESC
   author_ASC
@@ -71,9 +76,10 @@ enum BookOrderByInput {
 
 type BookPreviousValues {
   id: ID!
+  sourceId: ID!
   image: String
   author: String
-  rating: String
+  rating: Float
 }
 
 type BookSubscriptionPayload {
@@ -95,16 +101,18 @@ input BookSubscriptionWhereInput {
 }
 
 input BookUpdateInput {
+  sourceId: ID
   image: String
   author: String
-  rating: String
+  rating: Float
   availableBooks: CopyUpdateManyWithoutBookInput
 }
 
 input BookUpdateManyMutationInput {
+  sourceId: ID
   image: String
   author: String
-  rating: String
+  rating: Float
 }
 
 input BookUpdateOneWithoutAvailableBooksInput {
@@ -117,9 +125,10 @@ input BookUpdateOneWithoutAvailableBooksInput {
 }
 
 input BookUpdateWithoutAvailableBooksDataInput {
+  sourceId: ID
   image: String
   author: String
-  rating: String
+  rating: Float
 }
 
 input BookUpsertWithoutAvailableBooksInput {
@@ -142,6 +151,20 @@ input BookWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
+  sourceId: ID
+  sourceId_not: ID
+  sourceId_in: [ID!]
+  sourceId_not_in: [ID!]
+  sourceId_lt: ID
+  sourceId_lte: ID
+  sourceId_gt: ID
+  sourceId_gte: ID
+  sourceId_contains: ID
+  sourceId_not_contains: ID
+  sourceId_starts_with: ID
+  sourceId_not_starts_with: ID
+  sourceId_ends_with: ID
+  sourceId_not_ends_with: ID
   image: String
   image_not: String
   image_in: [String!]
@@ -170,20 +193,14 @@ input BookWhereInput {
   author_not_starts_with: String
   author_ends_with: String
   author_not_ends_with: String
-  rating: String
-  rating_not: String
-  rating_in: [String!]
-  rating_not_in: [String!]
-  rating_lt: String
-  rating_lte: String
-  rating_gt: String
-  rating_gte: String
-  rating_contains: String
-  rating_not_contains: String
-  rating_starts_with: String
-  rating_not_starts_with: String
-  rating_ends_with: String
-  rating_not_ends_with: String
+  rating: Float
+  rating_not: Float
+  rating_in: [Float!]
+  rating_not_in: [Float!]
+  rating_lt: Float
+  rating_lte: Float
+  rating_gt: Float
+  rating_gte: Float
   availableBooks_every: CopyWhereInput
   availableBooks_some: CopyWhereInput
   availableBooks_none: CopyWhereInput
@@ -198,15 +215,15 @@ input BookWhereUniqueInput {
 
 type Copy {
   id: ID!
-  sourceId: ID!
-  ownerId: ID!
+  sourceId: ID
+  ownerId: ID
   price: String!
   condition: String!
   comment: String
   contact: String!
   location: String
   book: Book
-  owner: Owner
+  owner: User
 }
 
 type CopyConnection {
@@ -217,15 +234,15 @@ type CopyConnection {
 
 input CopyCreateInput {
   id: ID
-  sourceId: ID!
-  ownerId: ID!
+  sourceId: ID
+  ownerId: ID
   price: String!
   condition: String!
   comment: String
   contact: String!
   location: String
   book: BookCreateOneWithoutAvailableBooksInput
-  owner: OwnerCreateOneWithoutOwnedBooksInput
+  owner: UserCreateOneWithoutOwnedBooksInput
 }
 
 input CopyCreateManyWithoutBookInput {
@@ -240,20 +257,20 @@ input CopyCreateManyWithoutOwnerInput {
 
 input CopyCreateWithoutBookInput {
   id: ID
-  sourceId: ID!
-  ownerId: ID!
+  sourceId: ID
+  ownerId: ID
   price: String!
   condition: String!
   comment: String
   contact: String!
   location: String
-  owner: OwnerCreateOneWithoutOwnedBooksInput
+  owner: UserCreateOneWithoutOwnedBooksInput
 }
 
 input CopyCreateWithoutOwnerInput {
   id: ID
-  sourceId: ID!
-  ownerId: ID!
+  sourceId: ID
+  ownerId: ID
   price: String!
   condition: String!
   comment: String
@@ -288,8 +305,8 @@ enum CopyOrderByInput {
 
 type CopyPreviousValues {
   id: ID!
-  sourceId: ID!
-  ownerId: ID!
+  sourceId: ID
+  ownerId: ID
   price: String!
   condition: String!
   comment: String
@@ -442,7 +459,7 @@ input CopyUpdateInput {
   contact: String
   location: String
   book: BookUpdateOneWithoutAvailableBooksInput
-  owner: OwnerUpdateOneWithoutOwnedBooksInput
+  owner: UserUpdateOneWithoutOwnedBooksInput
 }
 
 input CopyUpdateManyDataInput {
@@ -502,7 +519,7 @@ input CopyUpdateWithoutBookDataInput {
   comment: String
   contact: String
   location: String
-  owner: OwnerUpdateOneWithoutOwnedBooksInput
+  owner: UserUpdateOneWithoutOwnedBooksInput
 }
 
 input CopyUpdateWithoutOwnerDataInput {
@@ -652,7 +669,7 @@ input CopyWhereInput {
   location_ends_with: String
   location_not_ends_with: String
   book: BookWhereInput
-  owner: OwnerWhereInput
+  owner: UserWhereInput
   AND: [CopyWhereInput!]
   OR: [CopyWhereInput!]
   NOT: [CopyWhereInput!]
@@ -677,12 +694,12 @@ type Mutation {
   upsertCopy(where: CopyWhereUniqueInput!, create: CopyCreateInput!, update: CopyUpdateInput!): Copy!
   deleteCopy(where: CopyWhereUniqueInput!): Copy
   deleteManyCopies(where: CopyWhereInput): BatchPayload!
-  createOwner(data: OwnerCreateInput!): Owner!
-  updateOwner(data: OwnerUpdateInput!, where: OwnerWhereUniqueInput!): Owner
-  updateManyOwners(data: OwnerUpdateManyMutationInput!, where: OwnerWhereInput): BatchPayload!
-  upsertOwner(where: OwnerWhereUniqueInput!, create: OwnerCreateInput!, update: OwnerUpdateInput!): Owner!
-  deleteOwner(where: OwnerWhereUniqueInput!): Owner
-  deleteManyOwners(where: OwnerWhereInput): BatchPayload!
+  createUser(data: UserCreateInput!): User!
+  updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
+  updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
+  upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
+  deleteUser(where: UserWhereUniqueInput!): User
+  deleteManyUsers(where: UserWhereInput): BatchPayload!
 }
 
 enum MutationType {
@@ -695,106 +712,141 @@ interface Node {
   id: ID!
 }
 
-type Owner {
+type PageInfo {
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: String
+  endCursor: String
+}
+
+type Query {
+  book(where: BookWhereUniqueInput!): Book
+  books(where: BookWhereInput, orderBy: BookOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Book]!
+  booksConnection(where: BookWhereInput, orderBy: BookOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): BookConnection!
+  copy(where: CopyWhereUniqueInput!): Copy
+  copies(where: CopyWhereInput, orderBy: CopyOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Copy]!
+  copiesConnection(where: CopyWhereInput, orderBy: CopyOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): CopyConnection!
+  user(where: UserWhereUniqueInput!): User
+  users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
+  usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
+  node(id: ID!): Node
+}
+
+type Subscription {
+  book(where: BookSubscriptionWhereInput): BookSubscriptionPayload
+  copy(where: CopySubscriptionWhereInput): CopySubscriptionPayload
+  user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
+}
+
+type User {
   id: ID!
+  userId: ID!
   alias: String!
   avatar: String
   ownedBooks(where: CopyWhereInput, orderBy: CopyOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Copy!]
 }
 
-type OwnerConnection {
+type UserConnection {
   pageInfo: PageInfo!
-  edges: [OwnerEdge]!
-  aggregate: AggregateOwner!
+  edges: [UserEdge]!
+  aggregate: AggregateUser!
 }
 
-input OwnerCreateInput {
+input UserCreateInput {
   id: ID
+  userId: ID!
   alias: String!
   avatar: String
   ownedBooks: CopyCreateManyWithoutOwnerInput
 }
 
-input OwnerCreateOneWithoutOwnedBooksInput {
-  create: OwnerCreateWithoutOwnedBooksInput
-  connect: OwnerWhereUniqueInput
+input UserCreateOneWithoutOwnedBooksInput {
+  create: UserCreateWithoutOwnedBooksInput
+  connect: UserWhereUniqueInput
 }
 
-input OwnerCreateWithoutOwnedBooksInput {
+input UserCreateWithoutOwnedBooksInput {
   id: ID
+  userId: ID!
   alias: String!
   avatar: String
 }
 
-type OwnerEdge {
-  node: Owner!
+type UserEdge {
+  node: User!
   cursor: String!
 }
 
-enum OwnerOrderByInput {
+enum UserOrderByInput {
   id_ASC
   id_DESC
+  userId_ASC
+  userId_DESC
   alias_ASC
   alias_DESC
   avatar_ASC
   avatar_DESC
 }
 
-type OwnerPreviousValues {
+type UserPreviousValues {
   id: ID!
+  userId: ID!
   alias: String!
   avatar: String
 }
 
-type OwnerSubscriptionPayload {
+type UserSubscriptionPayload {
   mutation: MutationType!
-  node: Owner
+  node: User
   updatedFields: [String!]
-  previousValues: OwnerPreviousValues
+  previousValues: UserPreviousValues
 }
 
-input OwnerSubscriptionWhereInput {
+input UserSubscriptionWhereInput {
   mutation_in: [MutationType!]
   updatedFields_contains: String
   updatedFields_contains_every: [String!]
   updatedFields_contains_some: [String!]
-  node: OwnerWhereInput
-  AND: [OwnerSubscriptionWhereInput!]
-  OR: [OwnerSubscriptionWhereInput!]
-  NOT: [OwnerSubscriptionWhereInput!]
+  node: UserWhereInput
+  AND: [UserSubscriptionWhereInput!]
+  OR: [UserSubscriptionWhereInput!]
+  NOT: [UserSubscriptionWhereInput!]
 }
 
-input OwnerUpdateInput {
+input UserUpdateInput {
+  userId: ID
   alias: String
   avatar: String
   ownedBooks: CopyUpdateManyWithoutOwnerInput
 }
 
-input OwnerUpdateManyMutationInput {
+input UserUpdateManyMutationInput {
+  userId: ID
   alias: String
   avatar: String
 }
 
-input OwnerUpdateOneWithoutOwnedBooksInput {
-  create: OwnerCreateWithoutOwnedBooksInput
-  update: OwnerUpdateWithoutOwnedBooksDataInput
-  upsert: OwnerUpsertWithoutOwnedBooksInput
+input UserUpdateOneWithoutOwnedBooksInput {
+  create: UserCreateWithoutOwnedBooksInput
+  update: UserUpdateWithoutOwnedBooksDataInput
+  upsert: UserUpsertWithoutOwnedBooksInput
   delete: Boolean
   disconnect: Boolean
-  connect: OwnerWhereUniqueInput
+  connect: UserWhereUniqueInput
 }
 
-input OwnerUpdateWithoutOwnedBooksDataInput {
+input UserUpdateWithoutOwnedBooksDataInput {
+  userId: ID
   alias: String
   avatar: String
 }
 
-input OwnerUpsertWithoutOwnedBooksInput {
-  update: OwnerUpdateWithoutOwnedBooksDataInput!
-  create: OwnerCreateWithoutOwnedBooksInput!
+input UserUpsertWithoutOwnedBooksInput {
+  update: UserUpdateWithoutOwnedBooksDataInput!
+  create: UserCreateWithoutOwnedBooksInput!
 }
 
-input OwnerWhereInput {
+input UserWhereInput {
   id: ID
   id_not: ID
   id_in: [ID!]
@@ -809,6 +861,20 @@ input OwnerWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
+  userId: ID
+  userId_not: ID
+  userId_in: [ID!]
+  userId_not_in: [ID!]
+  userId_lt: ID
+  userId_lte: ID
+  userId_gt: ID
+  userId_gte: ID
+  userId_contains: ID
+  userId_not_contains: ID
+  userId_starts_with: ID
+  userId_not_starts_with: ID
+  userId_ends_with: ID
+  userId_not_ends_with: ID
   alias: String
   alias_not: String
   alias_in: [String!]
@@ -840,39 +906,13 @@ input OwnerWhereInput {
   ownedBooks_every: CopyWhereInput
   ownedBooks_some: CopyWhereInput
   ownedBooks_none: CopyWhereInput
-  AND: [OwnerWhereInput!]
-  OR: [OwnerWhereInput!]
-  NOT: [OwnerWhereInput!]
+  AND: [UserWhereInput!]
+  OR: [UserWhereInput!]
+  NOT: [UserWhereInput!]
 }
 
-input OwnerWhereUniqueInput {
+input UserWhereUniqueInput {
   id: ID
-}
-
-type PageInfo {
-  hasNextPage: Boolean!
-  hasPreviousPage: Boolean!
-  startCursor: String
-  endCursor: String
-}
-
-type Query {
-  book(where: BookWhereUniqueInput!): Book
-  books(where: BookWhereInput, orderBy: BookOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Book]!
-  booksConnection(where: BookWhereInput, orderBy: BookOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): BookConnection!
-  copy(where: CopyWhereUniqueInput!): Copy
-  copies(where: CopyWhereInput, orderBy: CopyOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Copy]!
-  copiesConnection(where: CopyWhereInput, orderBy: CopyOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): CopyConnection!
-  owner(where: OwnerWhereUniqueInput!): Owner
-  owners(where: OwnerWhereInput, orderBy: OwnerOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Owner]!
-  ownersConnection(where: OwnerWhereInput, orderBy: OwnerOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): OwnerConnection!
-  node(id: ID!): Node
-}
-
-type Subscription {
-  book(where: BookSubscriptionWhereInput): BookSubscriptionPayload
-  copy(where: CopySubscriptionWhereInput): CopySubscriptionPayload
-  owner(where: OwnerSubscriptionWhereInput): OwnerSubscriptionPayload
 }
 `
       }

@@ -19,8 +19,9 @@
 
 type Query {
   getAllBooks: [Book]
-  getBookDetails: Book
-  getCopiesByOwnerId:[Copy]
+  getAllCopies: [Copy]
+  getBookDetails(id: ID!): Book
+  getCopiesByOwnerId(id: ID!): [Copy]
 }
 
 type Mutation {
@@ -32,11 +33,14 @@ type Mutation {
     comment: String
     contact: String!
     location: String
+    image: String
+    author: String
+    rating: Float
+    alias: String
+    avatar: String
   ): Copy
 
   updateCopy(
-    sourceId: ID!
-    ownerId: ID!
     price: String!
     condition: String
     comment: String
@@ -49,28 +53,30 @@ type Mutation {
 
 type Copy {
   id: ID!
-  sourceId: ID!
-  ownerId: ID!
+  sourceId: ID,
+  ownerId: ID,
   price: String!
   condition: String!
   comment: String
   contact: String!
   location: String
   book: Book
-  owner: Owner
+  owner: User
 }
 
 type Book {
   id: ID!
+  sourceId: ID!
   image: String
   author: String
-  rating: String
-  availableBooks: [Copy]!
+  rating: Float
+  availableBooks: [Copy]
 }
 
-type Owner {
+type User {
   id: ID!
+  userId: ID!
   alias: String!
   avatar: String
-  ownedBooks: [Copy]!
+  ownedBooks: [Copy]
 }

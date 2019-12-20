@@ -1,27 +1,29 @@
 type Copy {
   id: ID! @id
-  sourceId: ID!
-  ownerId: ID!
+  sourceId: ID,
+  ownerId: ID,
   price: String!
   condition: String!
   comment: String
   contact: String!
   location: String
   book: Book
-  owner: Owner
+  owner: User
 }
 
 type Book {
   id: ID! @id
+  sourceId: ID!
   image: String
   author: String
-  rating: String
-  availableBooks: [Copy]!
+  rating: Float
+  availableBooks: [Copy]
 }
 
-type Owner {
+type User {
   id: ID! @id
+  userId: ID!
   alias: String!
   avatar: String
-  ownedBooks: [Copy]!
+  ownedBooks: [Copy]
 }

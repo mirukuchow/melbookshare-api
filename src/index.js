@@ -6,37 +6,99 @@ const resolvers = {
     getAllBooks: (parent, args, context) => {
       return context.prisma.books();
     },
+    getAllCopies: (parent, args, context) => {
+      return context.prisma.copies();
+    },
     getBookDetails: (parent, { id }, context) => {
-      return context.prisma.book({ id })
+      return context.prisma.book({ id });
     },
     getCopiesByOwnerId: (parent, { id }, context) => {
-      return context.prisma.copies({ where: { ownerId: id }});
-    },
+      return context.prisma.copies({ where: { ownerId: id } });
+    }
   },
   Mutation: {
     deleteCopy(parent, { id }, context) {
-      return context.prisma.deleteCopy({ id })
+      return context.prisma.deleteCopy({ id });
     },
-    updateCopy(parent, { id, ...props }, context) {
-      return context.prisma.updateCopy({
-        where: { id },
-        data: { ...props },
-      })
-    },
-    addCopy(
+    updateCopy(
       parent,
-      { sourceId, ownerId, price, condition, comment, contact, location },
+      { id, price, condition, comment, contact, location },
       context
     ) {
-      return context.prisma.createCopy({
+      return context.prisma.updateCopy({
+        where: { id },
+        data: { price, condition, comment, contact, location }
+      });
+    },
+    async addCopy(
+      parent,
+      {
         sourceId,
         ownerId,
         price,
         condition,
         comment,
         contact,
-        location
+        location,
+        image,
+        author,
+        rating,
+        alias,
+        avatar
+      },
+      context
+    ) {
+      // https://github.com/prisma/prisma/issues/2194
+      // const books = await context.prisma.books({ where: { sourceId } });
+      // const bookExists = books.length > 0;
+      // const owners = await context.prisma.owners({ where: { ownerId } });
+      // const ownerExists = owners.length > 0;
+      // TODO if book exist add to the availableBooks
+      // TODO if book exist add to the ownedBooks
+      return context.prisma.createCopy({
+        price,
+        condition,
+        ownerId,
+        sourceId,
+        comment,
+        contact,
+        location,
+        owner: {
+          create: {
+            userId: ownerId,
+            alias,
+            avatar
+          }
+        },
+        book: {
+          create: {
+            sourceId,
+            image,
+            author,
+            rating
+          }
+        }
       });
+    }
+  },
+  Copy: {
+    // this is to resolve the book inside copy
+    book(parent) {
+      return prisma.copy({ id: parent.id }).book();
+    },
+    // this is to resolve the owner inside copy
+    owner(parent) {
+      return prisma.copy({ id: parent.id }).owner();
+    }
+  },
+  Book: {
+    availableBooks(parent, _, context) {
+      return context.prisma.copies({ where: { sourceId: parent.sourceId } });
+    }
+  },
+  User: {
+    ownedBooks(parent, _, context) {
+      return context.prisma.copies({ where: { ownerId: parent.ownerId } });
     }
   }
 };
