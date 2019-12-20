@@ -18,43 +18,59 @@
 # }
 
 type Query {
-  getAllBooks: [Book]!
+  getAllBooks: [Book]
+  getBookDetails: Book
+  getCopiesByOwnerId:[Copy]
 }
 
 type Mutation {
-  addBook(
-    sourceId: ID!,
-    ownerId: ID!,
-    price: String!,
-    condition: String,
-    comment: String,
-    contact: String!,
+  addCopy(
+    sourceId: ID!
+    ownerId: ID!
+    price: String!
+    condition: String
+    comment: String
+    contact: String!
     location: String
-  ): Book
+  ): Copy
+
+  updateCopy(
+    sourceId: ID!
+    ownerId: ID!
+    price: String!
+    condition: String
+    comment: String
+    contact: String!
+    location: String
+  ): Copy
+
+  deleteCopy(id: ID!):Copy
 }
 
-type Book {
+type Copy {
   id: ID!
   sourceId: ID!
   ownerId: ID!
   price: String!
-  condition: String
+  condition: String!
   comment: String
   contact: String!
   location: String
+  book: Book
+  owner: Owner
 }
 
-type BookPublishingInfo {
+type Book {
   id: ID!
   image: String
   author: String
   rating: String
-  availableBooks: [Book]!
+  availableBooks: [Copy]!
 }
 
 type Owner {
   id: ID!
   alias: String!
   avatar: String
-  ownedBooks: [Book]!
+  ownedBooks: [Copy]!
 }

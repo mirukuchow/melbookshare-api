@@ -17,9 +17,7 @@ export type Maybe<T> = T | undefined | null;
 
 export interface Exists {
   book: (where?: BookWhereInput) => Promise<boolean>;
-  bookPublishingInfo: (
-    where?: BookPublishingInfoWhereInput
-  ) => Promise<boolean>;
+  copy: (where?: CopyWhereInput) => Promise<boolean>;
   owner: (where?: OwnerWhereInput) => Promise<boolean>;
 }
 
@@ -61,27 +59,25 @@ export interface Prisma {
     first?: Int;
     last?: Int;
   }) => BookConnectionPromise;
-  bookPublishingInfo: (
-    where: BookPublishingInfoWhereUniqueInput
-  ) => BookPublishingInfoNullablePromise;
-  bookPublishingInfoes: (args?: {
-    where?: BookPublishingInfoWhereInput;
-    orderBy?: BookPublishingInfoOrderByInput;
+  copy: (where: CopyWhereUniqueInput) => CopyNullablePromise;
+  copies: (args?: {
+    where?: CopyWhereInput;
+    orderBy?: CopyOrderByInput;
     skip?: Int;
     after?: String;
     before?: String;
     first?: Int;
     last?: Int;
-  }) => FragmentableArray<BookPublishingInfo>;
-  bookPublishingInfoesConnection: (args?: {
-    where?: BookPublishingInfoWhereInput;
-    orderBy?: BookPublishingInfoOrderByInput;
+  }) => FragmentableArray<Copy>;
+  copiesConnection: (args?: {
+    where?: CopyWhereInput;
+    orderBy?: CopyOrderByInput;
     skip?: Int;
     after?: String;
     before?: String;
     first?: Int;
     last?: Int;
-  }) => BookPublishingInfoConnectionPromise;
+  }) => CopyConnectionPromise;
   owner: (where: OwnerWhereUniqueInput) => OwnerNullablePromise;
   owners: (args?: {
     where?: OwnerWhereInput;
@@ -123,28 +119,22 @@ export interface Prisma {
   }) => BookPromise;
   deleteBook: (where: BookWhereUniqueInput) => BookPromise;
   deleteManyBooks: (where?: BookWhereInput) => BatchPayloadPromise;
-  createBookPublishingInfo: (
-    data: BookPublishingInfoCreateInput
-  ) => BookPublishingInfoPromise;
-  updateBookPublishingInfo: (args: {
-    data: BookPublishingInfoUpdateInput;
-    where: BookPublishingInfoWhereUniqueInput;
-  }) => BookPublishingInfoPromise;
-  updateManyBookPublishingInfoes: (args: {
-    data: BookPublishingInfoUpdateManyMutationInput;
-    where?: BookPublishingInfoWhereInput;
+  createCopy: (data: CopyCreateInput) => CopyPromise;
+  updateCopy: (args: {
+    data: CopyUpdateInput;
+    where: CopyWhereUniqueInput;
+  }) => CopyPromise;
+  updateManyCopies: (args: {
+    data: CopyUpdateManyMutationInput;
+    where?: CopyWhereInput;
   }) => BatchPayloadPromise;
-  upsertBookPublishingInfo: (args: {
-    where: BookPublishingInfoWhereUniqueInput;
-    create: BookPublishingInfoCreateInput;
-    update: BookPublishingInfoUpdateInput;
-  }) => BookPublishingInfoPromise;
-  deleteBookPublishingInfo: (
-    where: BookPublishingInfoWhereUniqueInput
-  ) => BookPublishingInfoPromise;
-  deleteManyBookPublishingInfoes: (
-    where?: BookPublishingInfoWhereInput
-  ) => BatchPayloadPromise;
+  upsertCopy: (args: {
+    where: CopyWhereUniqueInput;
+    create: CopyCreateInput;
+    update: CopyUpdateInput;
+  }) => CopyPromise;
+  deleteCopy: (where: CopyWhereUniqueInput) => CopyPromise;
+  deleteManyCopies: (where?: CopyWhereInput) => BatchPayloadPromise;
   createOwner: (data: OwnerCreateInput) => OwnerPromise;
   updateOwner: (args: {
     data: OwnerUpdateInput;
@@ -173,9 +163,9 @@ export interface Subscription {
   book: (
     where?: BookSubscriptionWhereInput
   ) => BookSubscriptionPayloadSubscription;
-  bookPublishingInfo: (
-    where?: BookPublishingInfoSubscriptionWhereInput
-  ) => BookPublishingInfoSubscriptionPayloadSubscription;
+  copy: (
+    where?: CopySubscriptionWhereInput
+  ) => CopySubscriptionPayloadSubscription;
   owner: (
     where?: OwnerSubscriptionWhereInput
   ) => OwnerSubscriptionPayloadSubscription;
@@ -189,7 +179,7 @@ export interface ClientConstructor<T> {
  * Types
  */
 
-export type BookOrderByInput =
+export type CopyOrderByInput =
   | "id_ASC"
   | "id_DESC"
   | "sourceId_ASC"
@@ -207,7 +197,7 @@ export type BookOrderByInput =
   | "location_ASC"
   | "location_DESC";
 
-export type BookPublishingInfoOrderByInput =
+export type BookOrderByInput =
   | "id_ASC"
   | "id_DESC"
   | "image_ASC"
@@ -227,31 +217,23 @@ export type OwnerOrderByInput =
 
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
-export interface BookUpdateInput {
-  sourceId?: Maybe<ID_Input>;
-  ownerId?: Maybe<ID_Input>;
-  price?: Maybe<String>;
-  condition?: Maybe<String>;
-  comment?: Maybe<String>;
-  contact?: Maybe<String>;
-  location?: Maybe<String>;
+export interface OwnerUpdateOneWithoutOwnedBooksInput {
+  create?: Maybe<OwnerCreateWithoutOwnedBooksInput>;
+  update?: Maybe<OwnerUpdateWithoutOwnedBooksDataInput>;
+  upsert?: Maybe<OwnerUpsertWithoutOwnedBooksInput>;
+  delete?: Maybe<Boolean>;
+  disconnect?: Maybe<Boolean>;
+  connect?: Maybe<OwnerWhereUniqueInput>;
 }
 
 export type BookWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
 }>;
 
-export interface BookUpdateManyWithWhereNestedInput {
-  where: BookScalarWhereInput;
-  data: BookUpdateManyDataInput;
-}
-
-export interface BookPublishingInfoCreateInput {
-  id?: Maybe<ID_Input>;
-  image?: Maybe<String>;
-  author?: Maybe<String>;
-  rating?: Maybe<String>;
-  availableBooks?: Maybe<BookCreateManyInput>;
+export interface CopyUpsertWithWhereUniqueWithoutBookInput {
+  where: CopyWhereUniqueInput;
+  update: CopyUpdateWithoutBookDataInput;
+  create: CopyCreateWithoutBookInput;
 }
 
 export interface OwnerWhereInput {
@@ -297,47 +279,39 @@ export interface OwnerWhereInput {
   avatar_not_starts_with?: Maybe<String>;
   avatar_ends_with?: Maybe<String>;
   avatar_not_ends_with?: Maybe<String>;
-  ownedBooks_every?: Maybe<BookWhereInput>;
-  ownedBooks_some?: Maybe<BookWhereInput>;
-  ownedBooks_none?: Maybe<BookWhereInput>;
+  ownedBooks_every?: Maybe<CopyWhereInput>;
+  ownedBooks_some?: Maybe<CopyWhereInput>;
+  ownedBooks_none?: Maybe<CopyWhereInput>;
   AND?: Maybe<OwnerWhereInput[] | OwnerWhereInput>;
   OR?: Maybe<OwnerWhereInput[] | OwnerWhereInput>;
   NOT?: Maybe<OwnerWhereInput[] | OwnerWhereInput>;
 }
 
-export interface BookUpdateManyMutationInput {
-  sourceId?: Maybe<ID_Input>;
-  ownerId?: Maybe<ID_Input>;
-  price?: Maybe<String>;
-  condition?: Maybe<String>;
+export interface CopyCreateWithoutBookInput {
+  id?: Maybe<ID_Input>;
+  sourceId: ID_Input;
+  ownerId: ID_Input;
+  price: String;
+  condition: String;
   comment?: Maybe<String>;
-  contact?: Maybe<String>;
+  contact: String;
   location?: Maybe<String>;
+  owner?: Maybe<OwnerCreateOneWithoutOwnedBooksInput>;
 }
 
-export interface OwnerSubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<OwnerWhereInput>;
-  AND?: Maybe<OwnerSubscriptionWhereInput[] | OwnerSubscriptionWhereInput>;
-  OR?: Maybe<OwnerSubscriptionWhereInput[] | OwnerSubscriptionWhereInput>;
-  NOT?: Maybe<OwnerSubscriptionWhereInput[] | OwnerSubscriptionWhereInput>;
+export interface BookCreateWithoutAvailableBooksInput {
+  id?: Maybe<ID_Input>;
+  image?: Maybe<String>;
+  author?: Maybe<String>;
+  rating?: Maybe<String>;
 }
 
-export interface BookSubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<BookWhereInput>;
-  AND?: Maybe<BookSubscriptionWhereInput[] | BookSubscriptionWhereInput>;
-  OR?: Maybe<BookSubscriptionWhereInput[] | BookSubscriptionWhereInput>;
-  NOT?: Maybe<BookSubscriptionWhereInput[] | BookSubscriptionWhereInput>;
+export interface OwnerCreateOneWithoutOwnedBooksInput {
+  create?: Maybe<OwnerCreateWithoutOwnedBooksInput>;
+  connect?: Maybe<OwnerWhereUniqueInput>;
 }
 
-export interface BookScalarWhereInput {
+export interface CopyScalarWhereInput {
   id?: Maybe<ID_Input>;
   id_not?: Maybe<ID_Input>;
   id_in?: Maybe<ID_Input[] | ID_Input>;
@@ -450,22 +424,256 @@ export interface BookScalarWhereInput {
   location_not_starts_with?: Maybe<String>;
   location_ends_with?: Maybe<String>;
   location_not_ends_with?: Maybe<String>;
-  AND?: Maybe<BookScalarWhereInput[] | BookScalarWhereInput>;
-  OR?: Maybe<BookScalarWhereInput[] | BookScalarWhereInput>;
-  NOT?: Maybe<BookScalarWhereInput[] | BookScalarWhereInput>;
+  AND?: Maybe<CopyScalarWhereInput[] | CopyScalarWhereInput>;
+  OR?: Maybe<CopyScalarWhereInput[] | CopyScalarWhereInput>;
+  NOT?: Maybe<CopyScalarWhereInput[] | CopyScalarWhereInput>;
 }
 
-export type BookPublishingInfoWhereUniqueInput = AtLeastOne<{
+export interface OwnerCreateWithoutOwnedBooksInput {
+  id?: Maybe<ID_Input>;
+  alias: String;
+  avatar?: Maybe<String>;
+}
+
+export interface CopyWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  sourceId?: Maybe<ID_Input>;
+  sourceId_not?: Maybe<ID_Input>;
+  sourceId_in?: Maybe<ID_Input[] | ID_Input>;
+  sourceId_not_in?: Maybe<ID_Input[] | ID_Input>;
+  sourceId_lt?: Maybe<ID_Input>;
+  sourceId_lte?: Maybe<ID_Input>;
+  sourceId_gt?: Maybe<ID_Input>;
+  sourceId_gte?: Maybe<ID_Input>;
+  sourceId_contains?: Maybe<ID_Input>;
+  sourceId_not_contains?: Maybe<ID_Input>;
+  sourceId_starts_with?: Maybe<ID_Input>;
+  sourceId_not_starts_with?: Maybe<ID_Input>;
+  sourceId_ends_with?: Maybe<ID_Input>;
+  sourceId_not_ends_with?: Maybe<ID_Input>;
+  ownerId?: Maybe<ID_Input>;
+  ownerId_not?: Maybe<ID_Input>;
+  ownerId_in?: Maybe<ID_Input[] | ID_Input>;
+  ownerId_not_in?: Maybe<ID_Input[] | ID_Input>;
+  ownerId_lt?: Maybe<ID_Input>;
+  ownerId_lte?: Maybe<ID_Input>;
+  ownerId_gt?: Maybe<ID_Input>;
+  ownerId_gte?: Maybe<ID_Input>;
+  ownerId_contains?: Maybe<ID_Input>;
+  ownerId_not_contains?: Maybe<ID_Input>;
+  ownerId_starts_with?: Maybe<ID_Input>;
+  ownerId_not_starts_with?: Maybe<ID_Input>;
+  ownerId_ends_with?: Maybe<ID_Input>;
+  ownerId_not_ends_with?: Maybe<ID_Input>;
+  price?: Maybe<String>;
+  price_not?: Maybe<String>;
+  price_in?: Maybe<String[] | String>;
+  price_not_in?: Maybe<String[] | String>;
+  price_lt?: Maybe<String>;
+  price_lte?: Maybe<String>;
+  price_gt?: Maybe<String>;
+  price_gte?: Maybe<String>;
+  price_contains?: Maybe<String>;
+  price_not_contains?: Maybe<String>;
+  price_starts_with?: Maybe<String>;
+  price_not_starts_with?: Maybe<String>;
+  price_ends_with?: Maybe<String>;
+  price_not_ends_with?: Maybe<String>;
+  condition?: Maybe<String>;
+  condition_not?: Maybe<String>;
+  condition_in?: Maybe<String[] | String>;
+  condition_not_in?: Maybe<String[] | String>;
+  condition_lt?: Maybe<String>;
+  condition_lte?: Maybe<String>;
+  condition_gt?: Maybe<String>;
+  condition_gte?: Maybe<String>;
+  condition_contains?: Maybe<String>;
+  condition_not_contains?: Maybe<String>;
+  condition_starts_with?: Maybe<String>;
+  condition_not_starts_with?: Maybe<String>;
+  condition_ends_with?: Maybe<String>;
+  condition_not_ends_with?: Maybe<String>;
+  comment?: Maybe<String>;
+  comment_not?: Maybe<String>;
+  comment_in?: Maybe<String[] | String>;
+  comment_not_in?: Maybe<String[] | String>;
+  comment_lt?: Maybe<String>;
+  comment_lte?: Maybe<String>;
+  comment_gt?: Maybe<String>;
+  comment_gte?: Maybe<String>;
+  comment_contains?: Maybe<String>;
+  comment_not_contains?: Maybe<String>;
+  comment_starts_with?: Maybe<String>;
+  comment_not_starts_with?: Maybe<String>;
+  comment_ends_with?: Maybe<String>;
+  comment_not_ends_with?: Maybe<String>;
+  contact?: Maybe<String>;
+  contact_not?: Maybe<String>;
+  contact_in?: Maybe<String[] | String>;
+  contact_not_in?: Maybe<String[] | String>;
+  contact_lt?: Maybe<String>;
+  contact_lte?: Maybe<String>;
+  contact_gt?: Maybe<String>;
+  contact_gte?: Maybe<String>;
+  contact_contains?: Maybe<String>;
+  contact_not_contains?: Maybe<String>;
+  contact_starts_with?: Maybe<String>;
+  contact_not_starts_with?: Maybe<String>;
+  contact_ends_with?: Maybe<String>;
+  contact_not_ends_with?: Maybe<String>;
+  location?: Maybe<String>;
+  location_not?: Maybe<String>;
+  location_in?: Maybe<String[] | String>;
+  location_not_in?: Maybe<String[] | String>;
+  location_lt?: Maybe<String>;
+  location_lte?: Maybe<String>;
+  location_gt?: Maybe<String>;
+  location_gte?: Maybe<String>;
+  location_contains?: Maybe<String>;
+  location_not_contains?: Maybe<String>;
+  location_starts_with?: Maybe<String>;
+  location_not_starts_with?: Maybe<String>;
+  location_ends_with?: Maybe<String>;
+  location_not_ends_with?: Maybe<String>;
+  book?: Maybe<BookWhereInput>;
+  owner?: Maybe<OwnerWhereInput>;
+  AND?: Maybe<CopyWhereInput[] | CopyWhereInput>;
+  OR?: Maybe<CopyWhereInput[] | CopyWhereInput>;
+  NOT?: Maybe<CopyWhereInput[] | CopyWhereInput>;
+}
+
+export interface BookUpdateInput {
+  image?: Maybe<String>;
+  author?: Maybe<String>;
+  rating?: Maybe<String>;
+  availableBooks?: Maybe<CopyUpdateManyWithoutBookInput>;
+}
+
+export interface BookSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<BookWhereInput>;
+  AND?: Maybe<BookSubscriptionWhereInput[] | BookSubscriptionWhereInput>;
+  OR?: Maybe<BookSubscriptionWhereInput[] | BookSubscriptionWhereInput>;
+  NOT?: Maybe<BookSubscriptionWhereInput[] | BookSubscriptionWhereInput>;
+}
+
+export interface CopyUpdateManyWithoutBookInput {
+  create?: Maybe<CopyCreateWithoutBookInput[] | CopyCreateWithoutBookInput>;
+  delete?: Maybe<CopyWhereUniqueInput[] | CopyWhereUniqueInput>;
+  connect?: Maybe<CopyWhereUniqueInput[] | CopyWhereUniqueInput>;
+  set?: Maybe<CopyWhereUniqueInput[] | CopyWhereUniqueInput>;
+  disconnect?: Maybe<CopyWhereUniqueInput[] | CopyWhereUniqueInput>;
+  update?: Maybe<
+    | CopyUpdateWithWhereUniqueWithoutBookInput[]
+    | CopyUpdateWithWhereUniqueWithoutBookInput
+  >;
+  upsert?: Maybe<
+    | CopyUpsertWithWhereUniqueWithoutBookInput[]
+    | CopyUpsertWithWhereUniqueWithoutBookInput
+  >;
+  deleteMany?: Maybe<CopyScalarWhereInput[] | CopyScalarWhereInput>;
+  updateMany?: Maybe<
+    CopyUpdateManyWithWhereNestedInput[] | CopyUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface CopyUpsertWithWhereUniqueWithoutOwnerInput {
+  where: CopyWhereUniqueInput;
+  update: CopyUpdateWithoutOwnerDataInput;
+  create: CopyCreateWithoutOwnerInput;
+}
+
+export interface CopyUpdateWithWhereUniqueWithoutBookInput {
+  where: CopyWhereUniqueInput;
+  data: CopyUpdateWithoutBookDataInput;
+}
+
+export type CopyWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
 }>;
 
-export interface BookUpsertWithWhereUniqueNestedInput {
-  where: BookWhereUniqueInput;
-  update: BookUpdateDataInput;
-  create: BookCreateInput;
+export interface CopyUpdateWithoutBookDataInput {
+  sourceId?: Maybe<ID_Input>;
+  ownerId?: Maybe<ID_Input>;
+  price?: Maybe<String>;
+  condition?: Maybe<String>;
+  comment?: Maybe<String>;
+  contact?: Maybe<String>;
+  location?: Maybe<String>;
+  owner?: Maybe<OwnerUpdateOneWithoutOwnedBooksInput>;
 }
 
-export interface BookPublishingInfoWhereInput {
+export interface CopyUpdateManyWithoutOwnerInput {
+  create?: Maybe<CopyCreateWithoutOwnerInput[] | CopyCreateWithoutOwnerInput>;
+  delete?: Maybe<CopyWhereUniqueInput[] | CopyWhereUniqueInput>;
+  connect?: Maybe<CopyWhereUniqueInput[] | CopyWhereUniqueInput>;
+  set?: Maybe<CopyWhereUniqueInput[] | CopyWhereUniqueInput>;
+  disconnect?: Maybe<CopyWhereUniqueInput[] | CopyWhereUniqueInput>;
+  update?: Maybe<
+    | CopyUpdateWithWhereUniqueWithoutOwnerInput[]
+    | CopyUpdateWithWhereUniqueWithoutOwnerInput
+  >;
+  upsert?: Maybe<
+    | CopyUpsertWithWhereUniqueWithoutOwnerInput[]
+    | CopyUpsertWithWhereUniqueWithoutOwnerInput
+  >;
+  deleteMany?: Maybe<CopyScalarWhereInput[] | CopyScalarWhereInput>;
+  updateMany?: Maybe<
+    CopyUpdateManyWithWhereNestedInput[] | CopyUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface BookUpsertWithoutAvailableBooksInput {
+  update: BookUpdateWithoutAvailableBooksDataInput;
+  create: BookCreateWithoutAvailableBooksInput;
+}
+
+export type OwnerWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
+
+export interface OwnerUpdateWithoutOwnedBooksDataInput {
+  alias?: Maybe<String>;
+  avatar?: Maybe<String>;
+}
+
+export interface CopyCreateManyWithoutOwnerInput {
+  create?: Maybe<CopyCreateWithoutOwnerInput[] | CopyCreateWithoutOwnerInput>;
+  connect?: Maybe<CopyWhereUniqueInput[] | CopyWhereUniqueInput>;
+}
+
+export interface OwnerUpsertWithoutOwnedBooksInput {
+  update: OwnerUpdateWithoutOwnedBooksDataInput;
+  create: OwnerCreateWithoutOwnedBooksInput;
+}
+
+export interface CopyUpdateManyMutationInput {
+  sourceId?: Maybe<ID_Input>;
+  ownerId?: Maybe<ID_Input>;
+  price?: Maybe<String>;
+  condition?: Maybe<String>;
+  comment?: Maybe<String>;
+  contact?: Maybe<String>;
+  location?: Maybe<String>;
+}
+
+export interface BookWhereInput {
   id?: Maybe<ID_Input>;
   id_not?: Maybe<ID_Input>;
   id_in?: Maybe<ID_Input[] | ID_Input>;
@@ -522,62 +730,71 @@ export interface BookPublishingInfoWhereInput {
   rating_not_starts_with?: Maybe<String>;
   rating_ends_with?: Maybe<String>;
   rating_not_ends_with?: Maybe<String>;
-  availableBooks_every?: Maybe<BookWhereInput>;
-  availableBooks_some?: Maybe<BookWhereInput>;
-  availableBooks_none?: Maybe<BookWhereInput>;
-  AND?: Maybe<BookPublishingInfoWhereInput[] | BookPublishingInfoWhereInput>;
-  OR?: Maybe<BookPublishingInfoWhereInput[] | BookPublishingInfoWhereInput>;
-  NOT?: Maybe<BookPublishingInfoWhereInput[] | BookPublishingInfoWhereInput>;
+  availableBooks_every?: Maybe<CopyWhereInput>;
+  availableBooks_some?: Maybe<CopyWhereInput>;
+  availableBooks_none?: Maybe<CopyWhereInput>;
+  AND?: Maybe<BookWhereInput[] | BookWhereInput>;
+  OR?: Maybe<BookWhereInput[] | BookWhereInput>;
+  NOT?: Maybe<BookWhereInput[] | BookWhereInput>;
 }
 
-export interface BookUpdateDataInput {
-  sourceId?: Maybe<ID_Input>;
-  ownerId?: Maybe<ID_Input>;
-  price?: Maybe<String>;
-  condition?: Maybe<String>;
-  comment?: Maybe<String>;
-  contact?: Maybe<String>;
-  location?: Maybe<String>;
-}
-
-export interface OwnerCreateInput {
+export interface BookCreateInput {
   id?: Maybe<ID_Input>;
-  alias: String;
-  avatar?: Maybe<String>;
-  ownedBooks?: Maybe<BookCreateManyInput>;
+  image?: Maybe<String>;
+  author?: Maybe<String>;
+  rating?: Maybe<String>;
+  availableBooks?: Maybe<CopyCreateManyWithoutBookInput>;
 }
 
-export interface BookUpdateManyDataInput {
-  sourceId?: Maybe<ID_Input>;
-  ownerId?: Maybe<ID_Input>;
-  price?: Maybe<String>;
-  condition?: Maybe<String>;
-  comment?: Maybe<String>;
-  contact?: Maybe<String>;
-  location?: Maybe<String>;
+export interface BookUpdateWithoutAvailableBooksDataInput {
+  image?: Maybe<String>;
+  author?: Maybe<String>;
+  rating?: Maybe<String>;
 }
 
-export interface BookPublishingInfoSubscriptionWhereInput {
+export interface OwnerSubscriptionWhereInput {
   mutation_in?: Maybe<MutationType[] | MutationType>;
   updatedFields_contains?: Maybe<String>;
   updatedFields_contains_every?: Maybe<String[] | String>;
   updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<BookPublishingInfoWhereInput>;
-  AND?: Maybe<
-    | BookPublishingInfoSubscriptionWhereInput[]
-    | BookPublishingInfoSubscriptionWhereInput
-  >;
-  OR?: Maybe<
-    | BookPublishingInfoSubscriptionWhereInput[]
-    | BookPublishingInfoSubscriptionWhereInput
-  >;
-  NOT?: Maybe<
-    | BookPublishingInfoSubscriptionWhereInput[]
-    | BookPublishingInfoSubscriptionWhereInput
-  >;
+  node?: Maybe<OwnerWhereInput>;
+  AND?: Maybe<OwnerSubscriptionWhereInput[] | OwnerSubscriptionWhereInput>;
+  OR?: Maybe<OwnerSubscriptionWhereInput[] | OwnerSubscriptionWhereInput>;
+  NOT?: Maybe<OwnerSubscriptionWhereInput[] | OwnerSubscriptionWhereInput>;
 }
 
-export interface BookCreateInput {
+export interface CopyUpdateManyWithWhereNestedInput {
+  where: CopyScalarWhereInput;
+  data: CopyUpdateManyDataInput;
+}
+
+export interface OwnerUpdateManyMutationInput {
+  alias?: Maybe<String>;
+  avatar?: Maybe<String>;
+}
+
+export interface CopyUpdateManyDataInput {
+  sourceId?: Maybe<ID_Input>;
+  ownerId?: Maybe<ID_Input>;
+  price?: Maybe<String>;
+  condition?: Maybe<String>;
+  comment?: Maybe<String>;
+  contact?: Maybe<String>;
+  location?: Maybe<String>;
+}
+
+export interface CopyUpdateWithWhereUniqueWithoutOwnerInput {
+  where: CopyWhereUniqueInput;
+  data: CopyUpdateWithoutOwnerDataInput;
+}
+
+export interface BookUpdateManyMutationInput {
+  image?: Maybe<String>;
+  author?: Maybe<String>;
+  rating?: Maybe<String>;
+}
+
+export interface CopyCreateWithoutOwnerInput {
   id?: Maybe<ID_Input>;
   sourceId: ID_Input;
   ownerId: ID_Input;
@@ -586,230 +803,90 @@ export interface BookCreateInput {
   comment?: Maybe<String>;
   contact: String;
   location?: Maybe<String>;
+  book?: Maybe<BookCreateOneWithoutAvailableBooksInput>;
+}
+
+export interface BookCreateOneWithoutAvailableBooksInput {
+  create?: Maybe<BookCreateWithoutAvailableBooksInput>;
+  connect?: Maybe<BookWhereUniqueInput>;
+}
+
+export interface CopyCreateInput {
+  id?: Maybe<ID_Input>;
+  sourceId: ID_Input;
+  ownerId: ID_Input;
+  price: String;
+  condition: String;
+  comment?: Maybe<String>;
+  contact: String;
+  location?: Maybe<String>;
+  book?: Maybe<BookCreateOneWithoutAvailableBooksInput>;
+  owner?: Maybe<OwnerCreateOneWithoutOwnedBooksInput>;
+}
+
+export interface CopyUpdateInput {
+  sourceId?: Maybe<ID_Input>;
+  ownerId?: Maybe<ID_Input>;
+  price?: Maybe<String>;
+  condition?: Maybe<String>;
+  comment?: Maybe<String>;
+  contact?: Maybe<String>;
+  location?: Maybe<String>;
+  book?: Maybe<BookUpdateOneWithoutAvailableBooksInput>;
+  owner?: Maybe<OwnerUpdateOneWithoutOwnedBooksInput>;
+}
+
+export interface BookUpdateOneWithoutAvailableBooksInput {
+  create?: Maybe<BookCreateWithoutAvailableBooksInput>;
+  update?: Maybe<BookUpdateWithoutAvailableBooksDataInput>;
+  upsert?: Maybe<BookUpsertWithoutAvailableBooksInput>;
+  delete?: Maybe<Boolean>;
+  disconnect?: Maybe<Boolean>;
+  connect?: Maybe<BookWhereUniqueInput>;
+}
+
+export interface CopyCreateManyWithoutBookInput {
+  create?: Maybe<CopyCreateWithoutBookInput[] | CopyCreateWithoutBookInput>;
+  connect?: Maybe<CopyWhereUniqueInput[] | CopyWhereUniqueInput>;
+}
+
+export interface OwnerCreateInput {
+  id?: Maybe<ID_Input>;
+  alias: String;
+  avatar?: Maybe<String>;
+  ownedBooks?: Maybe<CopyCreateManyWithoutOwnerInput>;
 }
 
 export interface OwnerUpdateInput {
   alias?: Maybe<String>;
   avatar?: Maybe<String>;
-  ownedBooks?: Maybe<BookUpdateManyInput>;
+  ownedBooks?: Maybe<CopyUpdateManyWithoutOwnerInput>;
 }
 
-export interface BookCreateManyInput {
-  create?: Maybe<BookCreateInput[] | BookCreateInput>;
-  connect?: Maybe<BookWhereUniqueInput[] | BookWhereUniqueInput>;
-}
-
-export interface BookPublishingInfoUpdateInput {
-  image?: Maybe<String>;
-  author?: Maybe<String>;
-  rating?: Maybe<String>;
-  availableBooks?: Maybe<BookUpdateManyInput>;
-}
-
-export interface BookUpdateManyInput {
-  create?: Maybe<BookCreateInput[] | BookCreateInput>;
-  update?: Maybe<
-    | BookUpdateWithWhereUniqueNestedInput[]
-    | BookUpdateWithWhereUniqueNestedInput
-  >;
-  upsert?: Maybe<
-    | BookUpsertWithWhereUniqueNestedInput[]
-    | BookUpsertWithWhereUniqueNestedInput
-  >;
-  delete?: Maybe<BookWhereUniqueInput[] | BookWhereUniqueInput>;
-  connect?: Maybe<BookWhereUniqueInput[] | BookWhereUniqueInput>;
-  set?: Maybe<BookWhereUniqueInput[] | BookWhereUniqueInput>;
-  disconnect?: Maybe<BookWhereUniqueInput[] | BookWhereUniqueInput>;
-  deleteMany?: Maybe<BookScalarWhereInput[] | BookScalarWhereInput>;
-  updateMany?: Maybe<
-    BookUpdateManyWithWhereNestedInput[] | BookUpdateManyWithWhereNestedInput
-  >;
-}
-
-export interface BookUpdateWithWhereUniqueNestedInput {
-  where: BookWhereUniqueInput;
-  data: BookUpdateDataInput;
-}
-
-export interface BookWhereInput {
-  id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
+export interface CopyUpdateWithoutOwnerDataInput {
   sourceId?: Maybe<ID_Input>;
-  sourceId_not?: Maybe<ID_Input>;
-  sourceId_in?: Maybe<ID_Input[] | ID_Input>;
-  sourceId_not_in?: Maybe<ID_Input[] | ID_Input>;
-  sourceId_lt?: Maybe<ID_Input>;
-  sourceId_lte?: Maybe<ID_Input>;
-  sourceId_gt?: Maybe<ID_Input>;
-  sourceId_gte?: Maybe<ID_Input>;
-  sourceId_contains?: Maybe<ID_Input>;
-  sourceId_not_contains?: Maybe<ID_Input>;
-  sourceId_starts_with?: Maybe<ID_Input>;
-  sourceId_not_starts_with?: Maybe<ID_Input>;
-  sourceId_ends_with?: Maybe<ID_Input>;
-  sourceId_not_ends_with?: Maybe<ID_Input>;
   ownerId?: Maybe<ID_Input>;
-  ownerId_not?: Maybe<ID_Input>;
-  ownerId_in?: Maybe<ID_Input[] | ID_Input>;
-  ownerId_not_in?: Maybe<ID_Input[] | ID_Input>;
-  ownerId_lt?: Maybe<ID_Input>;
-  ownerId_lte?: Maybe<ID_Input>;
-  ownerId_gt?: Maybe<ID_Input>;
-  ownerId_gte?: Maybe<ID_Input>;
-  ownerId_contains?: Maybe<ID_Input>;
-  ownerId_not_contains?: Maybe<ID_Input>;
-  ownerId_starts_with?: Maybe<ID_Input>;
-  ownerId_not_starts_with?: Maybe<ID_Input>;
-  ownerId_ends_with?: Maybe<ID_Input>;
-  ownerId_not_ends_with?: Maybe<ID_Input>;
   price?: Maybe<String>;
-  price_not?: Maybe<String>;
-  price_in?: Maybe<String[] | String>;
-  price_not_in?: Maybe<String[] | String>;
-  price_lt?: Maybe<String>;
-  price_lte?: Maybe<String>;
-  price_gt?: Maybe<String>;
-  price_gte?: Maybe<String>;
-  price_contains?: Maybe<String>;
-  price_not_contains?: Maybe<String>;
-  price_starts_with?: Maybe<String>;
-  price_not_starts_with?: Maybe<String>;
-  price_ends_with?: Maybe<String>;
-  price_not_ends_with?: Maybe<String>;
   condition?: Maybe<String>;
-  condition_not?: Maybe<String>;
-  condition_in?: Maybe<String[] | String>;
-  condition_not_in?: Maybe<String[] | String>;
-  condition_lt?: Maybe<String>;
-  condition_lte?: Maybe<String>;
-  condition_gt?: Maybe<String>;
-  condition_gte?: Maybe<String>;
-  condition_contains?: Maybe<String>;
-  condition_not_contains?: Maybe<String>;
-  condition_starts_with?: Maybe<String>;
-  condition_not_starts_with?: Maybe<String>;
-  condition_ends_with?: Maybe<String>;
-  condition_not_ends_with?: Maybe<String>;
   comment?: Maybe<String>;
-  comment_not?: Maybe<String>;
-  comment_in?: Maybe<String[] | String>;
-  comment_not_in?: Maybe<String[] | String>;
-  comment_lt?: Maybe<String>;
-  comment_lte?: Maybe<String>;
-  comment_gt?: Maybe<String>;
-  comment_gte?: Maybe<String>;
-  comment_contains?: Maybe<String>;
-  comment_not_contains?: Maybe<String>;
-  comment_starts_with?: Maybe<String>;
-  comment_not_starts_with?: Maybe<String>;
-  comment_ends_with?: Maybe<String>;
-  comment_not_ends_with?: Maybe<String>;
   contact?: Maybe<String>;
-  contact_not?: Maybe<String>;
-  contact_in?: Maybe<String[] | String>;
-  contact_not_in?: Maybe<String[] | String>;
-  contact_lt?: Maybe<String>;
-  contact_lte?: Maybe<String>;
-  contact_gt?: Maybe<String>;
-  contact_gte?: Maybe<String>;
-  contact_contains?: Maybe<String>;
-  contact_not_contains?: Maybe<String>;
-  contact_starts_with?: Maybe<String>;
-  contact_not_starts_with?: Maybe<String>;
-  contact_ends_with?: Maybe<String>;
-  contact_not_ends_with?: Maybe<String>;
   location?: Maybe<String>;
-  location_not?: Maybe<String>;
-  location_in?: Maybe<String[] | String>;
-  location_not_in?: Maybe<String[] | String>;
-  location_lt?: Maybe<String>;
-  location_lte?: Maybe<String>;
-  location_gt?: Maybe<String>;
-  location_gte?: Maybe<String>;
-  location_contains?: Maybe<String>;
-  location_not_contains?: Maybe<String>;
-  location_starts_with?: Maybe<String>;
-  location_not_starts_with?: Maybe<String>;
-  location_ends_with?: Maybe<String>;
-  location_not_ends_with?: Maybe<String>;
-  AND?: Maybe<BookWhereInput[] | BookWhereInput>;
-  OR?: Maybe<BookWhereInput[] | BookWhereInput>;
-  NOT?: Maybe<BookWhereInput[] | BookWhereInput>;
+  book?: Maybe<BookUpdateOneWithoutAvailableBooksInput>;
 }
 
-export interface OwnerUpdateManyMutationInput {
-  alias?: Maybe<String>;
-  avatar?: Maybe<String>;
-}
-
-export type OwnerWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
-}>;
-
-export interface BookPublishingInfoUpdateManyMutationInput {
-  image?: Maybe<String>;
-  author?: Maybe<String>;
-  rating?: Maybe<String>;
+export interface CopySubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<CopyWhereInput>;
+  AND?: Maybe<CopySubscriptionWhereInput[] | CopySubscriptionWhereInput>;
+  OR?: Maybe<CopySubscriptionWhereInput[] | CopySubscriptionWhereInput>;
+  NOT?: Maybe<CopySubscriptionWhereInput[] | CopySubscriptionWhereInput>;
 }
 
 export interface NodeNode {
   id: ID_Output;
-}
-
-export interface BookPublishingInfoSubscriptionPayload {
-  mutation: MutationType;
-  node: BookPublishingInfo;
-  updatedFields: String[];
-  previousValues: BookPublishingInfoPreviousValues;
-}
-
-export interface BookPublishingInfoSubscriptionPayloadPromise
-  extends Promise<BookPublishingInfoSubscriptionPayload>,
-    Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = BookPublishingInfoPromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = BookPublishingInfoPreviousValuesPromise>() => T;
-}
-
-export interface BookPublishingInfoSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<BookPublishingInfoSubscriptionPayload>>,
-    Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = BookPublishingInfoSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = BookPublishingInfoPreviousValuesSubscription>() => T;
-}
-
-export interface BookPublishingInfoEdge {
-  node: BookPublishingInfo;
-  cursor: String;
-}
-
-export interface BookPublishingInfoEdgePromise
-  extends Promise<BookPublishingInfoEdge>,
-    Fragmentable {
-  node: <T = BookPublishingInfoPromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface BookPublishingInfoEdgeSubscription
-  extends Promise<AsyncIterator<BookPublishingInfoEdge>>,
-    Fragmentable {
-  node: <T = BookPublishingInfoSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
 }
 
 export interface OwnerPreviousValues {
@@ -834,132 +911,50 @@ export interface OwnerPreviousValuesSubscription
   avatar: () => Promise<AsyncIterator<String>>;
 }
 
-export interface BookPublishingInfoConnection {
+export interface CopyConnection {
   pageInfo: PageInfo;
-  edges: BookPublishingInfoEdge[];
+  edges: CopyEdge[];
 }
 
-export interface BookPublishingInfoConnectionPromise
-  extends Promise<BookPublishingInfoConnection>,
+export interface CopyConnectionPromise
+  extends Promise<CopyConnection>,
     Fragmentable {
   pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<BookPublishingInfoEdge>>() => T;
-  aggregate: <T = AggregateBookPublishingInfoPromise>() => T;
+  edges: <T = FragmentableArray<CopyEdge>>() => T;
+  aggregate: <T = AggregateCopyPromise>() => T;
 }
 
-export interface BookPublishingInfoConnectionSubscription
-  extends Promise<AsyncIterator<BookPublishingInfoConnection>>,
+export interface CopyConnectionSubscription
+  extends Promise<AsyncIterator<CopyConnection>>,
     Fragmentable {
   pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <
-    T = Promise<AsyncIterator<BookPublishingInfoEdgeSubscription>>
-  >() => T;
-  aggregate: <T = AggregateBookPublishingInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<CopyEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateCopySubscription>() => T;
 }
 
-export interface BookConnection {
-  pageInfo: PageInfo;
-  edges: BookEdge[];
+export interface CopySubscriptionPayload {
+  mutation: MutationType;
+  node: Copy;
+  updatedFields: String[];
+  previousValues: CopyPreviousValues;
 }
 
-export interface BookConnectionPromise
-  extends Promise<BookConnection>,
+export interface CopySubscriptionPayloadPromise
+  extends Promise<CopySubscriptionPayload>,
     Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<BookEdge>>() => T;
-  aggregate: <T = AggregateBookPromise>() => T;
+  mutation: () => Promise<MutationType>;
+  node: <T = CopyPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = CopyPreviousValuesPromise>() => T;
 }
 
-export interface BookConnectionSubscription
-  extends Promise<AsyncIterator<BookConnection>>,
+export interface CopySubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<CopySubscriptionPayload>>,
     Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<BookEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateBookSubscription>() => T;
-}
-
-export interface BookPublishingInfo {
-  id: ID_Output;
-  image?: String;
-  author?: String;
-  rating?: String;
-}
-
-export interface BookPublishingInfoPromise
-  extends Promise<BookPublishingInfo>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  image: () => Promise<String>;
-  author: () => Promise<String>;
-  rating: () => Promise<String>;
-  availableBooks: <T = FragmentableArray<Book>>(args?: {
-    where?: BookWhereInput;
-    orderBy?: BookOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-}
-
-export interface BookPublishingInfoSubscription
-  extends Promise<AsyncIterator<BookPublishingInfo>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  image: () => Promise<AsyncIterator<String>>;
-  author: () => Promise<AsyncIterator<String>>;
-  rating: () => Promise<AsyncIterator<String>>;
-  availableBooks: <T = Promise<AsyncIterator<BookSubscription>>>(args?: {
-    where?: BookWhereInput;
-    orderBy?: BookOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-}
-
-export interface BookPublishingInfoNullablePromise
-  extends Promise<BookPublishingInfo | null>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  image: () => Promise<String>;
-  author: () => Promise<String>;
-  rating: () => Promise<String>;
-  availableBooks: <T = FragmentableArray<Book>>(args?: {
-    where?: BookWhereInput;
-    orderBy?: BookOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-}
-
-export interface PageInfo {
-  hasNextPage: Boolean;
-  hasPreviousPage: Boolean;
-  startCursor?: String;
-  endCursor?: String;
-}
-
-export interface PageInfoPromise extends Promise<PageInfo>, Fragmentable {
-  hasNextPage: () => Promise<Boolean>;
-  hasPreviousPage: () => Promise<Boolean>;
-  startCursor: () => Promise<String>;
-  endCursor: () => Promise<String>;
-}
-
-export interface PageInfoSubscription
-  extends Promise<AsyncIterator<PageInfo>>,
-    Fragmentable {
-  hasNextPage: () => Promise<AsyncIterator<Boolean>>;
-  hasPreviousPage: () => Promise<AsyncIterator<Boolean>>;
-  startCursor: () => Promise<AsyncIterator<String>>;
-  endCursor: () => Promise<AsyncIterator<String>>;
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = CopySubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = CopyPreviousValuesSubscription>() => T;
 }
 
 export interface AggregateBook {
@@ -974,22 +969,6 @@ export interface AggregateBookPromise
 
 export interface AggregateBookSubscription
   extends Promise<AsyncIterator<AggregateBook>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface AggregateOwner {
-  count: Int;
-}
-
-export interface AggregateOwnerPromise
-  extends Promise<AggregateOwner>,
-    Fragmentable {
-  count: () => Promise<Int>;
-}
-
-export interface AggregateOwnerSubscription
-  extends Promise<AsyncIterator<AggregateOwner>>,
     Fragmentable {
   count: () => Promise<AsyncIterator<Int>>;
 }
@@ -1011,41 +990,20 @@ export interface BookEdgeSubscription
   cursor: () => Promise<AsyncIterator<String>>;
 }
 
-export interface OwnerConnection {
-  pageInfo: PageInfo;
-  edges: OwnerEdge[];
+export interface BatchPayload {
+  count: Long;
 }
 
-export interface OwnerConnectionPromise
-  extends Promise<OwnerConnection>,
+export interface BatchPayloadPromise
+  extends Promise<BatchPayload>,
     Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<OwnerEdge>>() => T;
-  aggregate: <T = AggregateOwnerPromise>() => T;
+  count: () => Promise<Long>;
 }
 
-export interface OwnerConnectionSubscription
-  extends Promise<AsyncIterator<OwnerConnection>>,
+export interface BatchPayloadSubscription
+  extends Promise<AsyncIterator<BatchPayload>>,
     Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<OwnerEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateOwnerSubscription>() => T;
-}
-
-export interface AggregateBookPublishingInfo {
-  count: Int;
-}
-
-export interface AggregateBookPublishingInfoPromise
-  extends Promise<AggregateBookPublishingInfo>,
-    Fragmentable {
-  count: () => Promise<Int>;
-}
-
-export interface AggregateBookPublishingInfoSubscription
-  extends Promise<AsyncIterator<AggregateBookPublishingInfo>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
+  count: () => Promise<AsyncIterator<Long>>;
 }
 
 export interface OwnerSubscriptionPayload {
@@ -1073,7 +1031,7 @@ export interface OwnerSubscriptionPayloadSubscription
   previousValues: <T = OwnerPreviousValuesSubscription>() => T;
 }
 
-export interface BookPreviousValues {
+export interface CopyPreviousValues {
   id: ID_Output;
   sourceId: ID_Output;
   ownerId: ID_Output;
@@ -1084,8 +1042,8 @@ export interface BookPreviousValues {
   location?: String;
 }
 
-export interface BookPreviousValuesPromise
-  extends Promise<BookPreviousValues>,
+export interface CopyPreviousValuesPromise
+  extends Promise<CopyPreviousValues>,
     Fragmentable {
   id: () => Promise<ID_Output>;
   sourceId: () => Promise<ID_Output>;
@@ -1097,8 +1055,8 @@ export interface BookPreviousValuesPromise
   location: () => Promise<String>;
 }
 
-export interface BookPreviousValuesSubscription
-  extends Promise<AsyncIterator<BookPreviousValues>>,
+export interface CopyPreviousValuesSubscription
+  extends Promise<AsyncIterator<CopyPreviousValues>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   sourceId: () => Promise<AsyncIterator<ID_Output>>;
@@ -1108,6 +1066,164 @@ export interface BookPreviousValuesSubscription
   comment: () => Promise<AsyncIterator<String>>;
   contact: () => Promise<AsyncIterator<String>>;
   location: () => Promise<AsyncIterator<String>>;
+}
+
+export interface OwnerEdge {
+  node: Owner;
+  cursor: String;
+}
+
+export interface OwnerEdgePromise extends Promise<OwnerEdge>, Fragmentable {
+  node: <T = OwnerPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface OwnerEdgeSubscription
+  extends Promise<AsyncIterator<OwnerEdge>>,
+    Fragmentable {
+  node: <T = OwnerSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface PageInfo {
+  hasNextPage: Boolean;
+  hasPreviousPage: Boolean;
+  startCursor?: String;
+  endCursor?: String;
+}
+
+export interface PageInfoPromise extends Promise<PageInfo>, Fragmentable {
+  hasNextPage: () => Promise<Boolean>;
+  hasPreviousPage: () => Promise<Boolean>;
+  startCursor: () => Promise<String>;
+  endCursor: () => Promise<String>;
+}
+
+export interface PageInfoSubscription
+  extends Promise<AsyncIterator<PageInfo>>,
+    Fragmentable {
+  hasNextPage: () => Promise<AsyncIterator<Boolean>>;
+  hasPreviousPage: () => Promise<AsyncIterator<Boolean>>;
+  startCursor: () => Promise<AsyncIterator<String>>;
+  endCursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface Owner {
+  id: ID_Output;
+  alias: String;
+  avatar?: String;
+}
+
+export interface OwnerPromise extends Promise<Owner>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  alias: () => Promise<String>;
+  avatar: () => Promise<String>;
+  ownedBooks: <T = FragmentableArray<Copy>>(args?: {
+    where?: CopyWhereInput;
+    orderBy?: CopyOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+}
+
+export interface OwnerSubscription
+  extends Promise<AsyncIterator<Owner>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  alias: () => Promise<AsyncIterator<String>>;
+  avatar: () => Promise<AsyncIterator<String>>;
+  ownedBooks: <T = Promise<AsyncIterator<CopySubscription>>>(args?: {
+    where?: CopyWhereInput;
+    orderBy?: CopyOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+}
+
+export interface OwnerNullablePromise
+  extends Promise<Owner | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  alias: () => Promise<String>;
+  avatar: () => Promise<String>;
+  ownedBooks: <T = FragmentableArray<Copy>>(args?: {
+    where?: CopyWhereInput;
+    orderBy?: CopyOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+}
+
+export interface CopyEdge {
+  node: Copy;
+  cursor: String;
+}
+
+export interface CopyEdgePromise extends Promise<CopyEdge>, Fragmentable {
+  node: <T = CopyPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface CopyEdgeSubscription
+  extends Promise<AsyncIterator<CopyEdge>>,
+    Fragmentable {
+  node: <T = CopySubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface BookConnection {
+  pageInfo: PageInfo;
+  edges: BookEdge[];
+}
+
+export interface BookConnectionPromise
+  extends Promise<BookConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<BookEdge>>() => T;
+  aggregate: <T = AggregateBookPromise>() => T;
+}
+
+export interface BookConnectionSubscription
+  extends Promise<AsyncIterator<BookConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<BookEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateBookSubscription>() => T;
+}
+
+export interface BookPreviousValues {
+  id: ID_Output;
+  image?: String;
+  author?: String;
+  rating?: String;
+}
+
+export interface BookPreviousValuesPromise
+  extends Promise<BookPreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  image: () => Promise<String>;
+  author: () => Promise<String>;
+  rating: () => Promise<String>;
+}
+
+export interface BookPreviousValuesSubscription
+  extends Promise<AsyncIterator<BookPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  image: () => Promise<AsyncIterator<String>>;
+  author: () => Promise<AsyncIterator<String>>;
+  rating: () => Promise<AsyncIterator<String>>;
 }
 
 export interface BookSubscriptionPayload {
@@ -1137,6 +1253,65 @@ export interface BookSubscriptionPayloadSubscription
 
 export interface Book {
   id: ID_Output;
+  image?: String;
+  author?: String;
+  rating?: String;
+}
+
+export interface BookPromise extends Promise<Book>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  image: () => Promise<String>;
+  author: () => Promise<String>;
+  rating: () => Promise<String>;
+  availableBooks: <T = FragmentableArray<Copy>>(args?: {
+    where?: CopyWhereInput;
+    orderBy?: CopyOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+}
+
+export interface BookSubscription
+  extends Promise<AsyncIterator<Book>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  image: () => Promise<AsyncIterator<String>>;
+  author: () => Promise<AsyncIterator<String>>;
+  rating: () => Promise<AsyncIterator<String>>;
+  availableBooks: <T = Promise<AsyncIterator<CopySubscription>>>(args?: {
+    where?: CopyWhereInput;
+    orderBy?: CopyOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+}
+
+export interface BookNullablePromise
+  extends Promise<Book | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  image: () => Promise<String>;
+  author: () => Promise<String>;
+  rating: () => Promise<String>;
+  availableBooks: <T = FragmentableArray<Copy>>(args?: {
+    where?: CopyWhereInput;
+    orderBy?: CopyOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+}
+
+export interface Copy {
+  id: ID_Output;
   sourceId: ID_Output;
   ownerId: ID_Output;
   price: String;
@@ -1146,7 +1321,7 @@ export interface Book {
   location?: String;
 }
 
-export interface BookPromise extends Promise<Book>, Fragmentable {
+export interface CopyPromise extends Promise<Copy>, Fragmentable {
   id: () => Promise<ID_Output>;
   sourceId: () => Promise<ID_Output>;
   ownerId: () => Promise<ID_Output>;
@@ -1155,10 +1330,12 @@ export interface BookPromise extends Promise<Book>, Fragmentable {
   comment: () => Promise<String>;
   contact: () => Promise<String>;
   location: () => Promise<String>;
+  book: <T = BookPromise>() => T;
+  owner: <T = OwnerPromise>() => T;
 }
 
-export interface BookSubscription
-  extends Promise<AsyncIterator<Book>>,
+export interface CopySubscription
+  extends Promise<AsyncIterator<Copy>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   sourceId: () => Promise<AsyncIterator<ID_Output>>;
@@ -1168,10 +1345,12 @@ export interface BookSubscription
   comment: () => Promise<AsyncIterator<String>>;
   contact: () => Promise<AsyncIterator<String>>;
   location: () => Promise<AsyncIterator<String>>;
+  book: <T = BookSubscription>() => T;
+  owner: <T = OwnerSubscription>() => T;
 }
 
-export interface BookNullablePromise
-  extends Promise<Book | null>,
+export interface CopyNullablePromise
+  extends Promise<Copy | null>,
     Fragmentable {
   id: () => Promise<ID_Output>;
   sourceId: () => Promise<ID_Output>;
@@ -1181,137 +1360,69 @@ export interface BookNullablePromise
   comment: () => Promise<String>;
   contact: () => Promise<String>;
   location: () => Promise<String>;
+  book: <T = BookPromise>() => T;
+  owner: <T = OwnerPromise>() => T;
 }
 
-export interface BatchPayload {
-  count: Long;
+export interface AggregateCopy {
+  count: Int;
 }
 
-export interface BatchPayloadPromise
-  extends Promise<BatchPayload>,
+export interface AggregateCopyPromise
+  extends Promise<AggregateCopy>,
     Fragmentable {
-  count: () => Promise<Long>;
+  count: () => Promise<Int>;
 }
 
-export interface BatchPayloadSubscription
-  extends Promise<AsyncIterator<BatchPayload>>,
+export interface AggregateCopySubscription
+  extends Promise<AsyncIterator<AggregateCopy>>,
     Fragmentable {
-  count: () => Promise<AsyncIterator<Long>>;
+  count: () => Promise<AsyncIterator<Int>>;
 }
 
-export interface Owner {
-  id: ID_Output;
-  alias: String;
-  avatar?: String;
+export interface OwnerConnection {
+  pageInfo: PageInfo;
+  edges: OwnerEdge[];
 }
 
-export interface OwnerPromise extends Promise<Owner>, Fragmentable {
-  id: () => Promise<ID_Output>;
-  alias: () => Promise<String>;
-  avatar: () => Promise<String>;
-  ownedBooks: <T = FragmentableArray<Book>>(args?: {
-    where?: BookWhereInput;
-    orderBy?: BookOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-}
-
-export interface OwnerSubscription
-  extends Promise<AsyncIterator<Owner>>,
+export interface OwnerConnectionPromise
+  extends Promise<OwnerConnection>,
     Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  alias: () => Promise<AsyncIterator<String>>;
-  avatar: () => Promise<AsyncIterator<String>>;
-  ownedBooks: <T = Promise<AsyncIterator<BookSubscription>>>(args?: {
-    where?: BookWhereInput;
-    orderBy?: BookOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<OwnerEdge>>() => T;
+  aggregate: <T = AggregateOwnerPromise>() => T;
 }
 
-export interface OwnerNullablePromise
-  extends Promise<Owner | null>,
+export interface OwnerConnectionSubscription
+  extends Promise<AsyncIterator<OwnerConnection>>,
     Fragmentable {
-  id: () => Promise<ID_Output>;
-  alias: () => Promise<String>;
-  avatar: () => Promise<String>;
-  ownedBooks: <T = FragmentableArray<Book>>(args?: {
-    where?: BookWhereInput;
-    orderBy?: BookOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<OwnerEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateOwnerSubscription>() => T;
 }
 
-export interface OwnerEdge {
-  node: Owner;
-  cursor: String;
+export interface AggregateOwner {
+  count: Int;
 }
 
-export interface OwnerEdgePromise extends Promise<OwnerEdge>, Fragmentable {
-  node: <T = OwnerPromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface OwnerEdgeSubscription
-  extends Promise<AsyncIterator<OwnerEdge>>,
+export interface AggregateOwnerPromise
+  extends Promise<AggregateOwner>,
     Fragmentable {
-  node: <T = OwnerSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
+  count: () => Promise<Int>;
 }
 
-export interface BookPublishingInfoPreviousValues {
-  id: ID_Output;
-  image?: String;
-  author?: String;
-  rating?: String;
-}
-
-export interface BookPublishingInfoPreviousValuesPromise
-  extends Promise<BookPublishingInfoPreviousValues>,
+export interface AggregateOwnerSubscription
+  extends Promise<AsyncIterator<AggregateOwner>>,
     Fragmentable {
-  id: () => Promise<ID_Output>;
-  image: () => Promise<String>;
-  author: () => Promise<String>;
-  rating: () => Promise<String>;
+  count: () => Promise<AsyncIterator<Int>>;
 }
-
-export interface BookPublishingInfoPreviousValuesSubscription
-  extends Promise<AsyncIterator<BookPublishingInfoPreviousValues>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  image: () => Promise<AsyncIterator<String>>;
-  author: () => Promise<AsyncIterator<String>>;
-  rating: () => Promise<AsyncIterator<String>>;
-}
-
-export type Long = string;
 
 /*
 The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
 */
 export type Int = number;
 
-/*
-The `Boolean` scalar type represents `true` or `false`.
-*/
-export type Boolean = boolean;
-
-/*
-The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-*/
-export type String = string;
+export type Long = string;
 
 /*
 The `ID` scalar type represents a unique identifier, often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `"4"`) or integer (such as `4`) input value will be accepted as an ID.
@@ -1319,17 +1430,27 @@ The `ID` scalar type represents a unique identifier, often used to refetch an ob
 export type ID_Input = string | number;
 export type ID_Output = string;
 
+/*
+The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
+*/
+export type String = string;
+
+/*
+The `Boolean` scalar type represents `true` or `false`.
+*/
+export type Boolean = boolean;
+
 /**
  * Model Metadata
  */
 
 export const models: Model[] = [
   {
-    name: "Book",
+    name: "Copy",
     embedded: false
   },
   {
-    name: "BookPublishingInfo",
+    name: "Book",
     embedded: false
   },
   {

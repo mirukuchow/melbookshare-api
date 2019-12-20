@@ -1,4 +1,4 @@
-type Book {
+type Copy {
   id: ID! @id
   sourceId: ID!
   ownerId: ID!
@@ -7,19 +7,21 @@ type Book {
   comment: String
   contact: String!
   location: String
+  book: Book
+  owner: Owner
 }
 
-type BookPublishingInfo {
+type Book {
   id: ID! @id
   image: String
   author: String
   rating: String
-  availableBooks: [Book]!
+  availableBooks: [Copy]!
 }
 
 type Owner {
   id: ID! @id
   alias: String!
   avatar: String
-  ownedBooks: [Book]!
+  ownedBooks: [Copy]!
 }

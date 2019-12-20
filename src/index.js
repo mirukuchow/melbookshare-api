@@ -2,46 +2,33 @@ const { GraphQLServer } = require("graphql-yoga");
 const { prisma } = require("./generated/prisma-client");
 
 const resolvers = {
-  // Query: {
-  //   book: (parent, args, context) => {
-  //     return context.prisma.books()
-  //   },
-  //   drafts: (parent, args, context) => {
-  //     return context.prisma.posts({ where: { published: false } })
-  //   },
-  //   post: (parent, { id }, context) => {
-  //     return context.prisma.post({ id })
-  //   },
-  // },
   Query: {
     getAllBooks: (parent, args, context) => {
       return context.prisma.books();
-    }
+    },
+    getBookDetails: (parent, { id }, context) => {
+      return context.prisma.book({ id })
+    },
+    getCopiesByOwnerId: (parent, { id }, context) => {
+      return context.prisma.copies({ where: { ownerId: id }});
+    },
   },
-  // Mutation: {
-  //   createDraft(parent, { title, content }, context) {
-  //     return context.prisma.createPost({
-  //       title,
-  //       content,
-  //     })
-  //   },
-  //   deletePost(parent, { id }, context) {
-  //     return context.prisma.deletePost({ id })
-  //   },
-  //   publish(parent, { id }, context) {
-  //     return context.prisma.updatePost({
-  //       where: { id },
-  //       data: { published: true },
-  //     })
-  //   },
-  // },
   Mutation: {
-    addBook(
+    deleteCopy(parent, { id }, context) {
+      return context.prisma.deleteCopy({ id })
+    },
+    updateCopy(parent, { id, ...props }, context) {
+      return context.prisma.updateCopy({
+        where: { id },
+        data: { ...props },
+      })
+    },
+    addCopy(
       parent,
       { sourceId, ownerId, price, condition, comment, contact, location },
       context
     ) {
-      return context.prisma.createBook({
+      return context.prisma.createCopy({
         sourceId,
         ownerId,
         price,

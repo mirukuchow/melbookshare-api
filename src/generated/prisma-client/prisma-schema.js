@@ -7,7 +7,7 @@ module.exports = {
   count: Int!
 }
 
-type AggregateBookPublishingInfo {
+type AggregateCopy {
   count: Int!
 }
 
@@ -21,13 +21,10 @@ type BatchPayload {
 
 type Book {
   id: ID!
-  sourceId: ID!
-  ownerId: ID!
-  price: String!
-  condition: String!
-  comment: String
-  contact: String!
-  location: String
+  image: String
+  author: String
+  rating: String
+  availableBooks(where: CopyWhereInput, orderBy: CopyOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Copy!]
 }
 
 type BookConnection {
@@ -38,18 +35,22 @@ type BookConnection {
 
 input BookCreateInput {
   id: ID
-  sourceId: ID!
-  ownerId: ID!
-  price: String!
-  condition: String!
-  comment: String
-  contact: String!
-  location: String
+  image: String
+  author: String
+  rating: String
+  availableBooks: CopyCreateManyWithoutBookInput
 }
 
-input BookCreateManyInput {
-  create: [BookCreateInput!]
-  connect: [BookWhereUniqueInput!]
+input BookCreateOneWithoutAvailableBooksInput {
+  create: BookCreateWithoutAvailableBooksInput
+  connect: BookWhereUniqueInput
+}
+
+input BookCreateWithoutAvailableBooksInput {
+  id: ID
+  image: String
+  author: String
+  rating: String
 }
 
 type BookEdge {
@@ -60,63 +61,6 @@ type BookEdge {
 enum BookOrderByInput {
   id_ASC
   id_DESC
-  sourceId_ASC
-  sourceId_DESC
-  ownerId_ASC
-  ownerId_DESC
-  price_ASC
-  price_DESC
-  condition_ASC
-  condition_DESC
-  comment_ASC
-  comment_DESC
-  contact_ASC
-  contact_DESC
-  location_ASC
-  location_DESC
-}
-
-type BookPreviousValues {
-  id: ID!
-  sourceId: ID!
-  ownerId: ID!
-  price: String!
-  condition: String!
-  comment: String
-  contact: String!
-  location: String
-}
-
-type BookPublishingInfo {
-  id: ID!
-  image: String
-  author: String
-  rating: String
-  availableBooks(where: BookWhereInput, orderBy: BookOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Book!]
-}
-
-type BookPublishingInfoConnection {
-  pageInfo: PageInfo!
-  edges: [BookPublishingInfoEdge]!
-  aggregate: AggregateBookPublishingInfo!
-}
-
-input BookPublishingInfoCreateInput {
-  id: ID
-  image: String
-  author: String
-  rating: String
-  availableBooks: BookCreateManyInput
-}
-
-type BookPublishingInfoEdge {
-  node: BookPublishingInfo!
-  cursor: String!
-}
-
-enum BookPublishingInfoOrderByInput {
-  id_ASC
-  id_DESC
   image_ASC
   image_DESC
   author_ASC
@@ -125,45 +69,65 @@ enum BookPublishingInfoOrderByInput {
   rating_DESC
 }
 
-type BookPublishingInfoPreviousValues {
+type BookPreviousValues {
   id: ID!
   image: String
   author: String
   rating: String
 }
 
-type BookPublishingInfoSubscriptionPayload {
+type BookSubscriptionPayload {
   mutation: MutationType!
-  node: BookPublishingInfo
+  node: Book
   updatedFields: [String!]
-  previousValues: BookPublishingInfoPreviousValues
+  previousValues: BookPreviousValues
 }
 
-input BookPublishingInfoSubscriptionWhereInput {
+input BookSubscriptionWhereInput {
   mutation_in: [MutationType!]
   updatedFields_contains: String
   updatedFields_contains_every: [String!]
   updatedFields_contains_some: [String!]
-  node: BookPublishingInfoWhereInput
-  AND: [BookPublishingInfoSubscriptionWhereInput!]
-  OR: [BookPublishingInfoSubscriptionWhereInput!]
-  NOT: [BookPublishingInfoSubscriptionWhereInput!]
+  node: BookWhereInput
+  AND: [BookSubscriptionWhereInput!]
+  OR: [BookSubscriptionWhereInput!]
+  NOT: [BookSubscriptionWhereInput!]
 }
 
-input BookPublishingInfoUpdateInput {
+input BookUpdateInput {
   image: String
   author: String
   rating: String
-  availableBooks: BookUpdateManyInput
+  availableBooks: CopyUpdateManyWithoutBookInput
 }
 
-input BookPublishingInfoUpdateManyMutationInput {
+input BookUpdateManyMutationInput {
   image: String
   author: String
   rating: String
 }
 
-input BookPublishingInfoWhereInput {
+input BookUpdateOneWithoutAvailableBooksInput {
+  create: BookCreateWithoutAvailableBooksInput
+  update: BookUpdateWithoutAvailableBooksDataInput
+  upsert: BookUpsertWithoutAvailableBooksInput
+  delete: Boolean
+  disconnect: Boolean
+  connect: BookWhereUniqueInput
+}
+
+input BookUpdateWithoutAvailableBooksDataInput {
+  image: String
+  author: String
+  rating: String
+}
+
+input BookUpsertWithoutAvailableBooksInput {
+  update: BookUpdateWithoutAvailableBooksDataInput!
+  create: BookCreateWithoutAvailableBooksInput!
+}
+
+input BookWhereInput {
   id: ID
   id_not: ID
   id_in: [ID!]
@@ -220,341 +184,481 @@ input BookPublishingInfoWhereInput {
   rating_not_starts_with: String
   rating_ends_with: String
   rating_not_ends_with: String
-  availableBooks_every: BookWhereInput
-  availableBooks_some: BookWhereInput
-  availableBooks_none: BookWhereInput
-  AND: [BookPublishingInfoWhereInput!]
-  OR: [BookPublishingInfoWhereInput!]
-  NOT: [BookPublishingInfoWhereInput!]
-}
-
-input BookPublishingInfoWhereUniqueInput {
-  id: ID
-}
-
-input BookScalarWhereInput {
-  id: ID
-  id_not: ID
-  id_in: [ID!]
-  id_not_in: [ID!]
-  id_lt: ID
-  id_lte: ID
-  id_gt: ID
-  id_gte: ID
-  id_contains: ID
-  id_not_contains: ID
-  id_starts_with: ID
-  id_not_starts_with: ID
-  id_ends_with: ID
-  id_not_ends_with: ID
-  sourceId: ID
-  sourceId_not: ID
-  sourceId_in: [ID!]
-  sourceId_not_in: [ID!]
-  sourceId_lt: ID
-  sourceId_lte: ID
-  sourceId_gt: ID
-  sourceId_gte: ID
-  sourceId_contains: ID
-  sourceId_not_contains: ID
-  sourceId_starts_with: ID
-  sourceId_not_starts_with: ID
-  sourceId_ends_with: ID
-  sourceId_not_ends_with: ID
-  ownerId: ID
-  ownerId_not: ID
-  ownerId_in: [ID!]
-  ownerId_not_in: [ID!]
-  ownerId_lt: ID
-  ownerId_lte: ID
-  ownerId_gt: ID
-  ownerId_gte: ID
-  ownerId_contains: ID
-  ownerId_not_contains: ID
-  ownerId_starts_with: ID
-  ownerId_not_starts_with: ID
-  ownerId_ends_with: ID
-  ownerId_not_ends_with: ID
-  price: String
-  price_not: String
-  price_in: [String!]
-  price_not_in: [String!]
-  price_lt: String
-  price_lte: String
-  price_gt: String
-  price_gte: String
-  price_contains: String
-  price_not_contains: String
-  price_starts_with: String
-  price_not_starts_with: String
-  price_ends_with: String
-  price_not_ends_with: String
-  condition: String
-  condition_not: String
-  condition_in: [String!]
-  condition_not_in: [String!]
-  condition_lt: String
-  condition_lte: String
-  condition_gt: String
-  condition_gte: String
-  condition_contains: String
-  condition_not_contains: String
-  condition_starts_with: String
-  condition_not_starts_with: String
-  condition_ends_with: String
-  condition_not_ends_with: String
-  comment: String
-  comment_not: String
-  comment_in: [String!]
-  comment_not_in: [String!]
-  comment_lt: String
-  comment_lte: String
-  comment_gt: String
-  comment_gte: String
-  comment_contains: String
-  comment_not_contains: String
-  comment_starts_with: String
-  comment_not_starts_with: String
-  comment_ends_with: String
-  comment_not_ends_with: String
-  contact: String
-  contact_not: String
-  contact_in: [String!]
-  contact_not_in: [String!]
-  contact_lt: String
-  contact_lte: String
-  contact_gt: String
-  contact_gte: String
-  contact_contains: String
-  contact_not_contains: String
-  contact_starts_with: String
-  contact_not_starts_with: String
-  contact_ends_with: String
-  contact_not_ends_with: String
-  location: String
-  location_not: String
-  location_in: [String!]
-  location_not_in: [String!]
-  location_lt: String
-  location_lte: String
-  location_gt: String
-  location_gte: String
-  location_contains: String
-  location_not_contains: String
-  location_starts_with: String
-  location_not_starts_with: String
-  location_ends_with: String
-  location_not_ends_with: String
-  AND: [BookScalarWhereInput!]
-  OR: [BookScalarWhereInput!]
-  NOT: [BookScalarWhereInput!]
-}
-
-type BookSubscriptionPayload {
-  mutation: MutationType!
-  node: Book
-  updatedFields: [String!]
-  previousValues: BookPreviousValues
-}
-
-input BookSubscriptionWhereInput {
-  mutation_in: [MutationType!]
-  updatedFields_contains: String
-  updatedFields_contains_every: [String!]
-  updatedFields_contains_some: [String!]
-  node: BookWhereInput
-  AND: [BookSubscriptionWhereInput!]
-  OR: [BookSubscriptionWhereInput!]
-  NOT: [BookSubscriptionWhereInput!]
-}
-
-input BookUpdateDataInput {
-  sourceId: ID
-  ownerId: ID
-  price: String
-  condition: String
-  comment: String
-  contact: String
-  location: String
-}
-
-input BookUpdateInput {
-  sourceId: ID
-  ownerId: ID
-  price: String
-  condition: String
-  comment: String
-  contact: String
-  location: String
-}
-
-input BookUpdateManyDataInput {
-  sourceId: ID
-  ownerId: ID
-  price: String
-  condition: String
-  comment: String
-  contact: String
-  location: String
-}
-
-input BookUpdateManyInput {
-  create: [BookCreateInput!]
-  update: [BookUpdateWithWhereUniqueNestedInput!]
-  upsert: [BookUpsertWithWhereUniqueNestedInput!]
-  delete: [BookWhereUniqueInput!]
-  connect: [BookWhereUniqueInput!]
-  set: [BookWhereUniqueInput!]
-  disconnect: [BookWhereUniqueInput!]
-  deleteMany: [BookScalarWhereInput!]
-  updateMany: [BookUpdateManyWithWhereNestedInput!]
-}
-
-input BookUpdateManyMutationInput {
-  sourceId: ID
-  ownerId: ID
-  price: String
-  condition: String
-  comment: String
-  contact: String
-  location: String
-}
-
-input BookUpdateManyWithWhereNestedInput {
-  where: BookScalarWhereInput!
-  data: BookUpdateManyDataInput!
-}
-
-input BookUpdateWithWhereUniqueNestedInput {
-  where: BookWhereUniqueInput!
-  data: BookUpdateDataInput!
-}
-
-input BookUpsertWithWhereUniqueNestedInput {
-  where: BookWhereUniqueInput!
-  update: BookUpdateDataInput!
-  create: BookCreateInput!
-}
-
-input BookWhereInput {
-  id: ID
-  id_not: ID
-  id_in: [ID!]
-  id_not_in: [ID!]
-  id_lt: ID
-  id_lte: ID
-  id_gt: ID
-  id_gte: ID
-  id_contains: ID
-  id_not_contains: ID
-  id_starts_with: ID
-  id_not_starts_with: ID
-  id_ends_with: ID
-  id_not_ends_with: ID
-  sourceId: ID
-  sourceId_not: ID
-  sourceId_in: [ID!]
-  sourceId_not_in: [ID!]
-  sourceId_lt: ID
-  sourceId_lte: ID
-  sourceId_gt: ID
-  sourceId_gte: ID
-  sourceId_contains: ID
-  sourceId_not_contains: ID
-  sourceId_starts_with: ID
-  sourceId_not_starts_with: ID
-  sourceId_ends_with: ID
-  sourceId_not_ends_with: ID
-  ownerId: ID
-  ownerId_not: ID
-  ownerId_in: [ID!]
-  ownerId_not_in: [ID!]
-  ownerId_lt: ID
-  ownerId_lte: ID
-  ownerId_gt: ID
-  ownerId_gte: ID
-  ownerId_contains: ID
-  ownerId_not_contains: ID
-  ownerId_starts_with: ID
-  ownerId_not_starts_with: ID
-  ownerId_ends_with: ID
-  ownerId_not_ends_with: ID
-  price: String
-  price_not: String
-  price_in: [String!]
-  price_not_in: [String!]
-  price_lt: String
-  price_lte: String
-  price_gt: String
-  price_gte: String
-  price_contains: String
-  price_not_contains: String
-  price_starts_with: String
-  price_not_starts_with: String
-  price_ends_with: String
-  price_not_ends_with: String
-  condition: String
-  condition_not: String
-  condition_in: [String!]
-  condition_not_in: [String!]
-  condition_lt: String
-  condition_lte: String
-  condition_gt: String
-  condition_gte: String
-  condition_contains: String
-  condition_not_contains: String
-  condition_starts_with: String
-  condition_not_starts_with: String
-  condition_ends_with: String
-  condition_not_ends_with: String
-  comment: String
-  comment_not: String
-  comment_in: [String!]
-  comment_not_in: [String!]
-  comment_lt: String
-  comment_lte: String
-  comment_gt: String
-  comment_gte: String
-  comment_contains: String
-  comment_not_contains: String
-  comment_starts_with: String
-  comment_not_starts_with: String
-  comment_ends_with: String
-  comment_not_ends_with: String
-  contact: String
-  contact_not: String
-  contact_in: [String!]
-  contact_not_in: [String!]
-  contact_lt: String
-  contact_lte: String
-  contact_gt: String
-  contact_gte: String
-  contact_contains: String
-  contact_not_contains: String
-  contact_starts_with: String
-  contact_not_starts_with: String
-  contact_ends_with: String
-  contact_not_ends_with: String
-  location: String
-  location_not: String
-  location_in: [String!]
-  location_not_in: [String!]
-  location_lt: String
-  location_lte: String
-  location_gt: String
-  location_gte: String
-  location_contains: String
-  location_not_contains: String
-  location_starts_with: String
-  location_not_starts_with: String
-  location_ends_with: String
-  location_not_ends_with: String
+  availableBooks_every: CopyWhereInput
+  availableBooks_some: CopyWhereInput
+  availableBooks_none: CopyWhereInput
   AND: [BookWhereInput!]
   OR: [BookWhereInput!]
   NOT: [BookWhereInput!]
 }
 
 input BookWhereUniqueInput {
+  id: ID
+}
+
+type Copy {
+  id: ID!
+  sourceId: ID!
+  ownerId: ID!
+  price: String!
+  condition: String!
+  comment: String
+  contact: String!
+  location: String
+  book: Book
+  owner: Owner
+}
+
+type CopyConnection {
+  pageInfo: PageInfo!
+  edges: [CopyEdge]!
+  aggregate: AggregateCopy!
+}
+
+input CopyCreateInput {
+  id: ID
+  sourceId: ID!
+  ownerId: ID!
+  price: String!
+  condition: String!
+  comment: String
+  contact: String!
+  location: String
+  book: BookCreateOneWithoutAvailableBooksInput
+  owner: OwnerCreateOneWithoutOwnedBooksInput
+}
+
+input CopyCreateManyWithoutBookInput {
+  create: [CopyCreateWithoutBookInput!]
+  connect: [CopyWhereUniqueInput!]
+}
+
+input CopyCreateManyWithoutOwnerInput {
+  create: [CopyCreateWithoutOwnerInput!]
+  connect: [CopyWhereUniqueInput!]
+}
+
+input CopyCreateWithoutBookInput {
+  id: ID
+  sourceId: ID!
+  ownerId: ID!
+  price: String!
+  condition: String!
+  comment: String
+  contact: String!
+  location: String
+  owner: OwnerCreateOneWithoutOwnedBooksInput
+}
+
+input CopyCreateWithoutOwnerInput {
+  id: ID
+  sourceId: ID!
+  ownerId: ID!
+  price: String!
+  condition: String!
+  comment: String
+  contact: String!
+  location: String
+  book: BookCreateOneWithoutAvailableBooksInput
+}
+
+type CopyEdge {
+  node: Copy!
+  cursor: String!
+}
+
+enum CopyOrderByInput {
+  id_ASC
+  id_DESC
+  sourceId_ASC
+  sourceId_DESC
+  ownerId_ASC
+  ownerId_DESC
+  price_ASC
+  price_DESC
+  condition_ASC
+  condition_DESC
+  comment_ASC
+  comment_DESC
+  contact_ASC
+  contact_DESC
+  location_ASC
+  location_DESC
+}
+
+type CopyPreviousValues {
+  id: ID!
+  sourceId: ID!
+  ownerId: ID!
+  price: String!
+  condition: String!
+  comment: String
+  contact: String!
+  location: String
+}
+
+input CopyScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  sourceId: ID
+  sourceId_not: ID
+  sourceId_in: [ID!]
+  sourceId_not_in: [ID!]
+  sourceId_lt: ID
+  sourceId_lte: ID
+  sourceId_gt: ID
+  sourceId_gte: ID
+  sourceId_contains: ID
+  sourceId_not_contains: ID
+  sourceId_starts_with: ID
+  sourceId_not_starts_with: ID
+  sourceId_ends_with: ID
+  sourceId_not_ends_with: ID
+  ownerId: ID
+  ownerId_not: ID
+  ownerId_in: [ID!]
+  ownerId_not_in: [ID!]
+  ownerId_lt: ID
+  ownerId_lte: ID
+  ownerId_gt: ID
+  ownerId_gte: ID
+  ownerId_contains: ID
+  ownerId_not_contains: ID
+  ownerId_starts_with: ID
+  ownerId_not_starts_with: ID
+  ownerId_ends_with: ID
+  ownerId_not_ends_with: ID
+  price: String
+  price_not: String
+  price_in: [String!]
+  price_not_in: [String!]
+  price_lt: String
+  price_lte: String
+  price_gt: String
+  price_gte: String
+  price_contains: String
+  price_not_contains: String
+  price_starts_with: String
+  price_not_starts_with: String
+  price_ends_with: String
+  price_not_ends_with: String
+  condition: String
+  condition_not: String
+  condition_in: [String!]
+  condition_not_in: [String!]
+  condition_lt: String
+  condition_lte: String
+  condition_gt: String
+  condition_gte: String
+  condition_contains: String
+  condition_not_contains: String
+  condition_starts_with: String
+  condition_not_starts_with: String
+  condition_ends_with: String
+  condition_not_ends_with: String
+  comment: String
+  comment_not: String
+  comment_in: [String!]
+  comment_not_in: [String!]
+  comment_lt: String
+  comment_lte: String
+  comment_gt: String
+  comment_gte: String
+  comment_contains: String
+  comment_not_contains: String
+  comment_starts_with: String
+  comment_not_starts_with: String
+  comment_ends_with: String
+  comment_not_ends_with: String
+  contact: String
+  contact_not: String
+  contact_in: [String!]
+  contact_not_in: [String!]
+  contact_lt: String
+  contact_lte: String
+  contact_gt: String
+  contact_gte: String
+  contact_contains: String
+  contact_not_contains: String
+  contact_starts_with: String
+  contact_not_starts_with: String
+  contact_ends_with: String
+  contact_not_ends_with: String
+  location: String
+  location_not: String
+  location_in: [String!]
+  location_not_in: [String!]
+  location_lt: String
+  location_lte: String
+  location_gt: String
+  location_gte: String
+  location_contains: String
+  location_not_contains: String
+  location_starts_with: String
+  location_not_starts_with: String
+  location_ends_with: String
+  location_not_ends_with: String
+  AND: [CopyScalarWhereInput!]
+  OR: [CopyScalarWhereInput!]
+  NOT: [CopyScalarWhereInput!]
+}
+
+type CopySubscriptionPayload {
+  mutation: MutationType!
+  node: Copy
+  updatedFields: [String!]
+  previousValues: CopyPreviousValues
+}
+
+input CopySubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: CopyWhereInput
+  AND: [CopySubscriptionWhereInput!]
+  OR: [CopySubscriptionWhereInput!]
+  NOT: [CopySubscriptionWhereInput!]
+}
+
+input CopyUpdateInput {
+  sourceId: ID
+  ownerId: ID
+  price: String
+  condition: String
+  comment: String
+  contact: String
+  location: String
+  book: BookUpdateOneWithoutAvailableBooksInput
+  owner: OwnerUpdateOneWithoutOwnedBooksInput
+}
+
+input CopyUpdateManyDataInput {
+  sourceId: ID
+  ownerId: ID
+  price: String
+  condition: String
+  comment: String
+  contact: String
+  location: String
+}
+
+input CopyUpdateManyMutationInput {
+  sourceId: ID
+  ownerId: ID
+  price: String
+  condition: String
+  comment: String
+  contact: String
+  location: String
+}
+
+input CopyUpdateManyWithoutBookInput {
+  create: [CopyCreateWithoutBookInput!]
+  delete: [CopyWhereUniqueInput!]
+  connect: [CopyWhereUniqueInput!]
+  set: [CopyWhereUniqueInput!]
+  disconnect: [CopyWhereUniqueInput!]
+  update: [CopyUpdateWithWhereUniqueWithoutBookInput!]
+  upsert: [CopyUpsertWithWhereUniqueWithoutBookInput!]
+  deleteMany: [CopyScalarWhereInput!]
+  updateMany: [CopyUpdateManyWithWhereNestedInput!]
+}
+
+input CopyUpdateManyWithoutOwnerInput {
+  create: [CopyCreateWithoutOwnerInput!]
+  delete: [CopyWhereUniqueInput!]
+  connect: [CopyWhereUniqueInput!]
+  set: [CopyWhereUniqueInput!]
+  disconnect: [CopyWhereUniqueInput!]
+  update: [CopyUpdateWithWhereUniqueWithoutOwnerInput!]
+  upsert: [CopyUpsertWithWhereUniqueWithoutOwnerInput!]
+  deleteMany: [CopyScalarWhereInput!]
+  updateMany: [CopyUpdateManyWithWhereNestedInput!]
+}
+
+input CopyUpdateManyWithWhereNestedInput {
+  where: CopyScalarWhereInput!
+  data: CopyUpdateManyDataInput!
+}
+
+input CopyUpdateWithoutBookDataInput {
+  sourceId: ID
+  ownerId: ID
+  price: String
+  condition: String
+  comment: String
+  contact: String
+  location: String
+  owner: OwnerUpdateOneWithoutOwnedBooksInput
+}
+
+input CopyUpdateWithoutOwnerDataInput {
+  sourceId: ID
+  ownerId: ID
+  price: String
+  condition: String
+  comment: String
+  contact: String
+  location: String
+  book: BookUpdateOneWithoutAvailableBooksInput
+}
+
+input CopyUpdateWithWhereUniqueWithoutBookInput {
+  where: CopyWhereUniqueInput!
+  data: CopyUpdateWithoutBookDataInput!
+}
+
+input CopyUpdateWithWhereUniqueWithoutOwnerInput {
+  where: CopyWhereUniqueInput!
+  data: CopyUpdateWithoutOwnerDataInput!
+}
+
+input CopyUpsertWithWhereUniqueWithoutBookInput {
+  where: CopyWhereUniqueInput!
+  update: CopyUpdateWithoutBookDataInput!
+  create: CopyCreateWithoutBookInput!
+}
+
+input CopyUpsertWithWhereUniqueWithoutOwnerInput {
+  where: CopyWhereUniqueInput!
+  update: CopyUpdateWithoutOwnerDataInput!
+  create: CopyCreateWithoutOwnerInput!
+}
+
+input CopyWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  sourceId: ID
+  sourceId_not: ID
+  sourceId_in: [ID!]
+  sourceId_not_in: [ID!]
+  sourceId_lt: ID
+  sourceId_lte: ID
+  sourceId_gt: ID
+  sourceId_gte: ID
+  sourceId_contains: ID
+  sourceId_not_contains: ID
+  sourceId_starts_with: ID
+  sourceId_not_starts_with: ID
+  sourceId_ends_with: ID
+  sourceId_not_ends_with: ID
+  ownerId: ID
+  ownerId_not: ID
+  ownerId_in: [ID!]
+  ownerId_not_in: [ID!]
+  ownerId_lt: ID
+  ownerId_lte: ID
+  ownerId_gt: ID
+  ownerId_gte: ID
+  ownerId_contains: ID
+  ownerId_not_contains: ID
+  ownerId_starts_with: ID
+  ownerId_not_starts_with: ID
+  ownerId_ends_with: ID
+  ownerId_not_ends_with: ID
+  price: String
+  price_not: String
+  price_in: [String!]
+  price_not_in: [String!]
+  price_lt: String
+  price_lte: String
+  price_gt: String
+  price_gte: String
+  price_contains: String
+  price_not_contains: String
+  price_starts_with: String
+  price_not_starts_with: String
+  price_ends_with: String
+  price_not_ends_with: String
+  condition: String
+  condition_not: String
+  condition_in: [String!]
+  condition_not_in: [String!]
+  condition_lt: String
+  condition_lte: String
+  condition_gt: String
+  condition_gte: String
+  condition_contains: String
+  condition_not_contains: String
+  condition_starts_with: String
+  condition_not_starts_with: String
+  condition_ends_with: String
+  condition_not_ends_with: String
+  comment: String
+  comment_not: String
+  comment_in: [String!]
+  comment_not_in: [String!]
+  comment_lt: String
+  comment_lte: String
+  comment_gt: String
+  comment_gte: String
+  comment_contains: String
+  comment_not_contains: String
+  comment_starts_with: String
+  comment_not_starts_with: String
+  comment_ends_with: String
+  comment_not_ends_with: String
+  contact: String
+  contact_not: String
+  contact_in: [String!]
+  contact_not_in: [String!]
+  contact_lt: String
+  contact_lte: String
+  contact_gt: String
+  contact_gte: String
+  contact_contains: String
+  contact_not_contains: String
+  contact_starts_with: String
+  contact_not_starts_with: String
+  contact_ends_with: String
+  contact_not_ends_with: String
+  location: String
+  location_not: String
+  location_in: [String!]
+  location_not_in: [String!]
+  location_lt: String
+  location_lte: String
+  location_gt: String
+  location_gte: String
+  location_contains: String
+  location_not_contains: String
+  location_starts_with: String
+  location_not_starts_with: String
+  location_ends_with: String
+  location_not_ends_with: String
+  book: BookWhereInput
+  owner: OwnerWhereInput
+  AND: [CopyWhereInput!]
+  OR: [CopyWhereInput!]
+  NOT: [CopyWhereInput!]
+}
+
+input CopyWhereUniqueInput {
   id: ID
 }
 
@@ -567,12 +671,12 @@ type Mutation {
   upsertBook(where: BookWhereUniqueInput!, create: BookCreateInput!, update: BookUpdateInput!): Book!
   deleteBook(where: BookWhereUniqueInput!): Book
   deleteManyBooks(where: BookWhereInput): BatchPayload!
-  createBookPublishingInfo(data: BookPublishingInfoCreateInput!): BookPublishingInfo!
-  updateBookPublishingInfo(data: BookPublishingInfoUpdateInput!, where: BookPublishingInfoWhereUniqueInput!): BookPublishingInfo
-  updateManyBookPublishingInfoes(data: BookPublishingInfoUpdateManyMutationInput!, where: BookPublishingInfoWhereInput): BatchPayload!
-  upsertBookPublishingInfo(where: BookPublishingInfoWhereUniqueInput!, create: BookPublishingInfoCreateInput!, update: BookPublishingInfoUpdateInput!): BookPublishingInfo!
-  deleteBookPublishingInfo(where: BookPublishingInfoWhereUniqueInput!): BookPublishingInfo
-  deleteManyBookPublishingInfoes(where: BookPublishingInfoWhereInput): BatchPayload!
+  createCopy(data: CopyCreateInput!): Copy!
+  updateCopy(data: CopyUpdateInput!, where: CopyWhereUniqueInput!): Copy
+  updateManyCopies(data: CopyUpdateManyMutationInput!, where: CopyWhereInput): BatchPayload!
+  upsertCopy(where: CopyWhereUniqueInput!, create: CopyCreateInput!, update: CopyUpdateInput!): Copy!
+  deleteCopy(where: CopyWhereUniqueInput!): Copy
+  deleteManyCopies(where: CopyWhereInput): BatchPayload!
   createOwner(data: OwnerCreateInput!): Owner!
   updateOwner(data: OwnerUpdateInput!, where: OwnerWhereUniqueInput!): Owner
   updateManyOwners(data: OwnerUpdateManyMutationInput!, where: OwnerWhereInput): BatchPayload!
@@ -595,7 +699,7 @@ type Owner {
   id: ID!
   alias: String!
   avatar: String
-  ownedBooks(where: BookWhereInput, orderBy: BookOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Book!]
+  ownedBooks(where: CopyWhereInput, orderBy: CopyOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Copy!]
 }
 
 type OwnerConnection {
@@ -608,7 +712,18 @@ input OwnerCreateInput {
   id: ID
   alias: String!
   avatar: String
-  ownedBooks: BookCreateManyInput
+  ownedBooks: CopyCreateManyWithoutOwnerInput
+}
+
+input OwnerCreateOneWithoutOwnedBooksInput {
+  create: OwnerCreateWithoutOwnedBooksInput
+  connect: OwnerWhereUniqueInput
+}
+
+input OwnerCreateWithoutOwnedBooksInput {
+  id: ID
+  alias: String!
+  avatar: String
 }
 
 type OwnerEdge {
@@ -652,12 +767,31 @@ input OwnerSubscriptionWhereInput {
 input OwnerUpdateInput {
   alias: String
   avatar: String
-  ownedBooks: BookUpdateManyInput
+  ownedBooks: CopyUpdateManyWithoutOwnerInput
 }
 
 input OwnerUpdateManyMutationInput {
   alias: String
   avatar: String
+}
+
+input OwnerUpdateOneWithoutOwnedBooksInput {
+  create: OwnerCreateWithoutOwnedBooksInput
+  update: OwnerUpdateWithoutOwnedBooksDataInput
+  upsert: OwnerUpsertWithoutOwnedBooksInput
+  delete: Boolean
+  disconnect: Boolean
+  connect: OwnerWhereUniqueInput
+}
+
+input OwnerUpdateWithoutOwnedBooksDataInput {
+  alias: String
+  avatar: String
+}
+
+input OwnerUpsertWithoutOwnedBooksInput {
+  update: OwnerUpdateWithoutOwnedBooksDataInput!
+  create: OwnerCreateWithoutOwnedBooksInput!
 }
 
 input OwnerWhereInput {
@@ -703,9 +837,9 @@ input OwnerWhereInput {
   avatar_not_starts_with: String
   avatar_ends_with: String
   avatar_not_ends_with: String
-  ownedBooks_every: BookWhereInput
-  ownedBooks_some: BookWhereInput
-  ownedBooks_none: BookWhereInput
+  ownedBooks_every: CopyWhereInput
+  ownedBooks_some: CopyWhereInput
+  ownedBooks_none: CopyWhereInput
   AND: [OwnerWhereInput!]
   OR: [OwnerWhereInput!]
   NOT: [OwnerWhereInput!]
@@ -726,9 +860,9 @@ type Query {
   book(where: BookWhereUniqueInput!): Book
   books(where: BookWhereInput, orderBy: BookOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Book]!
   booksConnection(where: BookWhereInput, orderBy: BookOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): BookConnection!
-  bookPublishingInfo(where: BookPublishingInfoWhereUniqueInput!): BookPublishingInfo
-  bookPublishingInfoes(where: BookPublishingInfoWhereInput, orderBy: BookPublishingInfoOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [BookPublishingInfo]!
-  bookPublishingInfoesConnection(where: BookPublishingInfoWhereInput, orderBy: BookPublishingInfoOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): BookPublishingInfoConnection!
+  copy(where: CopyWhereUniqueInput!): Copy
+  copies(where: CopyWhereInput, orderBy: CopyOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Copy]!
+  copiesConnection(where: CopyWhereInput, orderBy: CopyOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): CopyConnection!
   owner(where: OwnerWhereUniqueInput!): Owner
   owners(where: OwnerWhereInput, orderBy: OwnerOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Owner]!
   ownersConnection(where: OwnerWhereInput, orderBy: OwnerOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): OwnerConnection!
@@ -737,7 +871,7 @@ type Query {
 
 type Subscription {
   book(where: BookSubscriptionWhereInput): BookSubscriptionPayload
-  bookPublishingInfo(where: BookPublishingInfoSubscriptionWhereInput): BookPublishingInfoSubscriptionPayload
+  copy(where: CopySubscriptionWhereInput): CopySubscriptionPayload
   owner(where: OwnerSubscriptionWhereInput): OwnerSubscriptionPayload
 }
 `
