@@ -3,6 +3,17 @@ const { prisma } = require("./generated/prisma-client");
 
 const resolvers = {
   Query: {
+    searchBook: (parent, { q }, context) => {
+      return context.prisma.books({
+        where: {
+          AND: [{
+            title_starts_with: q
+          }, {
+            author_starts_with: q
+          }]
+        }
+      });
+    },
     getAllBooks: (parent, args, context) => {
       return context.prisma.books();
     },
@@ -44,15 +55,14 @@ const resolvers = {
         author,
         rating,
         alias,
-        avatar
+        avatar,
+        title
       },
       context
     ) {
       // https://github.com/prisma/prisma/issues/2194
-      // const books = await context.prisma.books({ where: { sourceId } });
-      // const bookExists = books.length > 0;
-      // const owners = await context.prisma.owners({ where: { ownerId } });
-      // const ownerExists = owners.length > 0;
+      const bookExists = await prisma.$exists.book({ sourceId });
+      const userExists = await prisma.$exists.user({ id: ownerId });
       // TODO if book exist add to the availableBooks
       // TODO if book exist add to the ownedBooks
       return context.prisma.createCopy({
@@ -63,21 +73,26 @@ const resolvers = {
         comment,
         contact,
         location,
-        owner: {
-          create: {
-            userId: ownerId,
-            alias,
-            avatar
+        ...(!userExists && {
+          owner: {
+            create: {
+              userId: ownerId,
+              alias,
+              avatar
+            }
           }
-        },
-        book: {
-          create: {
-            sourceId,
-            image,
-            author,
-            rating
+        }),
+        ...(!bookExists && {
+          book: {
+            create: {
+              sourceId,
+              image,
+              author,
+              rating,
+              title
+            }
           }
-        }
+        })
       });
     }
   },

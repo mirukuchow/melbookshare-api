@@ -7,17 +7,18 @@ type Copy {
   comment: String
   contact: String!
   location: String
-  book: Book
-  owner: User
+  book: Book @relation(name: "CopyToBook")
+  owner: User @relation(name: "CopyToOwner")
 }
 
 type Book {
   id: ID! @id
+  title: String!
   sourceId: ID!
   image: String
   author: String
   rating: Float
-  availableBooks: [Copy]
+  availableBooks: [Copy] @relation(name: "CopyToBook", onDelete: CASCADE)
 }
 
 type User {
@@ -25,5 +26,5 @@ type User {
   userId: ID!
   alias: String!
   avatar: String
-  ownedBooks: [Copy]
+  ownedBooks: [Copy] @relation(name: "CopyToOwner", onDelete: CASCADE)
 }

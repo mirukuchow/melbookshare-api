@@ -21,6 +21,7 @@ type Query {
   getAllBooks: [Book]
   getAllCopies: [Copy]
   getBookDetails(id: ID!): Book
+  searchBook(q:String):[Book]
   getCopiesByOwnerId(id: ID!): [Copy]
 }
 
@@ -29,6 +30,7 @@ type Mutation {
     sourceId: ID!
     ownerId: ID!
     price: String!
+    title: String!
     condition: String
     comment: String
     contact: String!
@@ -66,6 +68,7 @@ type Copy {
 
 type Book {
   id: ID!
+  title: String!
   sourceId: ID!
   image: String
   author: String

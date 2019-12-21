@@ -21,6 +21,7 @@ type BatchPayload {
 
 type Book {
   id: ID!
+  title: String!
   sourceId: ID!
   image: String
   author: String
@@ -36,6 +37,7 @@ type BookConnection {
 
 input BookCreateInput {
   id: ID
+  title: String!
   sourceId: ID!
   image: String
   author: String
@@ -50,6 +52,7 @@ input BookCreateOneWithoutAvailableBooksInput {
 
 input BookCreateWithoutAvailableBooksInput {
   id: ID
+  title: String!
   sourceId: ID!
   image: String
   author: String
@@ -64,6 +67,8 @@ type BookEdge {
 enum BookOrderByInput {
   id_ASC
   id_DESC
+  title_ASC
+  title_DESC
   sourceId_ASC
   sourceId_DESC
   image_ASC
@@ -76,6 +81,7 @@ enum BookOrderByInput {
 
 type BookPreviousValues {
   id: ID!
+  title: String!
   sourceId: ID!
   image: String
   author: String
@@ -101,6 +107,7 @@ input BookSubscriptionWhereInput {
 }
 
 input BookUpdateInput {
+  title: String
   sourceId: ID
   image: String
   author: String
@@ -109,6 +116,7 @@ input BookUpdateInput {
 }
 
 input BookUpdateManyMutationInput {
+  title: String
   sourceId: ID
   image: String
   author: String
@@ -125,6 +133,7 @@ input BookUpdateOneWithoutAvailableBooksInput {
 }
 
 input BookUpdateWithoutAvailableBooksDataInput {
+  title: String
   sourceId: ID
   image: String
   author: String
@@ -151,6 +160,20 @@ input BookWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
+  title: String
+  title_not: String
+  title_in: [String!]
+  title_not_in: [String!]
+  title_lt: String
+  title_lte: String
+  title_gt: String
+  title_gte: String
+  title_contains: String
+  title_not_contains: String
+  title_starts_with: String
+  title_not_starts_with: String
+  title_ends_with: String
+  title_not_ends_with: String
   sourceId: ID
   sourceId_not: ID
   sourceId_in: [ID!]

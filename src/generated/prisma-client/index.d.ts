@@ -200,6 +200,8 @@ export type CopyOrderByInput =
 export type BookOrderByInput =
   | "id_ASC"
   | "id_DESC"
+  | "title_ASC"
+  | "title_DESC"
   | "sourceId_ASC"
   | "sourceId_DESC"
   | "image_ASC"
@@ -255,6 +257,20 @@ export interface BookWhereInput {
   id_not_starts_with?: Maybe<ID_Input>;
   id_ends_with?: Maybe<ID_Input>;
   id_not_ends_with?: Maybe<ID_Input>;
+  title?: Maybe<String>;
+  title_not?: Maybe<String>;
+  title_in?: Maybe<String[] | String>;
+  title_not_in?: Maybe<String[] | String>;
+  title_lt?: Maybe<String>;
+  title_lte?: Maybe<String>;
+  title_gt?: Maybe<String>;
+  title_gte?: Maybe<String>;
+  title_contains?: Maybe<String>;
+  title_not_contains?: Maybe<String>;
+  title_starts_with?: Maybe<String>;
+  title_not_starts_with?: Maybe<String>;
+  title_ends_with?: Maybe<String>;
+  title_not_ends_with?: Maybe<String>;
   sourceId?: Maybe<ID_Input>;
   sourceId_not?: Maybe<ID_Input>;
   sourceId_in?: Maybe<ID_Input[] | ID_Input>;
@@ -597,6 +613,7 @@ export interface CopySubscriptionWhereInput {
 }
 
 export interface BookUpdateInput {
+  title?: Maybe<String>;
   sourceId?: Maybe<ID_Input>;
   image?: Maybe<String>;
   author?: Maybe<String>;
@@ -787,6 +804,7 @@ export interface BookSubscriptionWhereInput {
 }
 
 export interface BookUpdateWithoutAvailableBooksDataInput {
+  title?: Maybe<String>;
   sourceId?: Maybe<ID_Input>;
   image?: Maybe<String>;
   author?: Maybe<String>;
@@ -845,6 +863,7 @@ export interface CopyCreateInput {
 
 export interface BookCreateWithoutAvailableBooksInput {
   id?: Maybe<ID_Input>;
+  title: String;
   sourceId: ID_Input;
   image?: Maybe<String>;
   author?: Maybe<String>;
@@ -864,6 +883,7 @@ export interface CopyUpdateInput {
 }
 
 export interface BookUpdateManyMutationInput {
+  title?: Maybe<String>;
   sourceId?: Maybe<ID_Input>;
   image?: Maybe<String>;
   author?: Maybe<String>;
@@ -872,6 +892,7 @@ export interface BookUpdateManyMutationInput {
 
 export interface BookCreateInput {
   id?: Maybe<ID_Input>;
+  title: String;
   sourceId: ID_Input;
   image?: Maybe<String>;
   author?: Maybe<String>;
@@ -1257,6 +1278,7 @@ export interface BookConnectionSubscription
 
 export interface BookPreviousValues {
   id: ID_Output;
+  title: String;
   sourceId: ID_Output;
   image?: String;
   author?: String;
@@ -1267,6 +1289,7 @@ export interface BookPreviousValuesPromise
   extends Promise<BookPreviousValues>,
     Fragmentable {
   id: () => Promise<ID_Output>;
+  title: () => Promise<String>;
   sourceId: () => Promise<ID_Output>;
   image: () => Promise<String>;
   author: () => Promise<String>;
@@ -1277,6 +1300,7 @@ export interface BookPreviousValuesSubscription
   extends Promise<AsyncIterator<BookPreviousValues>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
+  title: () => Promise<AsyncIterator<String>>;
   sourceId: () => Promise<AsyncIterator<ID_Output>>;
   image: () => Promise<AsyncIterator<String>>;
   author: () => Promise<AsyncIterator<String>>;
@@ -1310,6 +1334,7 @@ export interface BookSubscriptionPayloadSubscription
 
 export interface Book {
   id: ID_Output;
+  title: String;
   sourceId: ID_Output;
   image?: String;
   author?: String;
@@ -1318,6 +1343,7 @@ export interface Book {
 
 export interface BookPromise extends Promise<Book>, Fragmentable {
   id: () => Promise<ID_Output>;
+  title: () => Promise<String>;
   sourceId: () => Promise<ID_Output>;
   image: () => Promise<String>;
   author: () => Promise<String>;
@@ -1337,6 +1363,7 @@ export interface BookSubscription
   extends Promise<AsyncIterator<Book>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
+  title: () => Promise<AsyncIterator<String>>;
   sourceId: () => Promise<AsyncIterator<ID_Output>>;
   image: () => Promise<AsyncIterator<String>>;
   author: () => Promise<AsyncIterator<String>>;
@@ -1356,6 +1383,7 @@ export interface BookNullablePromise
   extends Promise<Book | null>,
     Fragmentable {
   id: () => Promise<ID_Output>;
+  title: () => Promise<String>;
   sourceId: () => Promise<ID_Output>;
   image: () => Promise<String>;
   author: () => Promise<String>;
