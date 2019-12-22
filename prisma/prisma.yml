@@ -22,4 +22,5 @@ hooks:
 # to the `Authorization` header of HTTP requests made against the Prisma API.
 # Info: https://www.prisma.io/docs/prisma-graphql-api/reference/authentication-ghd4/
 # secret: mysecret123
+#https://alligator.io/graphql/setting-up-prisma/
 
