@@ -13,22 +13,12 @@ services:
         databases:
           default:
             connector: postgres
-            host: postgres
-            user: prisma
-            password: prisma
+            host: ec2-174-129-32-240.compute-1.amazonaws.com
+            database: dd68lfnummarrt
+            schema: public
+            user: ebqhhypqbohgwr
+            password: 2971b9090077bdce1a9a2dc12237ca1a52ccd6453e6a8165597600cbfdb1342e
+            ssl: true
             rawAccess: true
             port: 5432
             migrations: true
-  postgres:
-    image: postgres
-    restart: always
-    # Uncomment the next two lines to connect to your your database from outside the Docker environment, e.g. using a database GUI like Postico
-    # ports:
-    # - "5432:5432"
-    environment:
-      POSTGRES_USER: prisma
-      POSTGRES_PASSWORD: prisma
-    volumes:
-      - postgres:/var/lib/postgresql/data
-volumes:
-  postgres:
