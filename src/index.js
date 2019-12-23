@@ -1,6 +1,6 @@
 const { GraphQLServer } = require("graphql-yoga");
-const jwt = require("jsonwebtoken");
-const { AuthenticationError } =require("apollo-server-core");
+// const jwt = require("jsonwebtoken");
+// const { AuthenticationError } =require("apollo-server-core");
 
 const { prisma } = require("./generated/prisma-client");
 
@@ -66,8 +66,7 @@ const resolvers = {
       // https://github.com/prisma/prisma/issues/2194
       const bookExists = await prisma.$exists.book({ sourceId });
       const userExists = await prisma.$exists.user({ id: ownerId });
-      // TODO if book exist add to the availableBooks
-      // TODO if book exist add to the ownedBooks
+
       return context.prisma.createCopy({
         price,
         condition,
@@ -121,16 +120,18 @@ const resolvers = {
   }
 };
 
-const autheticate = async (resolve, root, args, context, info) => {
-  let token;
-  try {
-      token = jwt.verify(context.request.get("Authorization"), process.env["YOGA_SECRET"]);
-  } catch (e) {
-      return new AuthenticationError("Not authorised");
-  }
-  const result = await resolve(root, args, context, info);
-  return result;
-};
+// TODO: implement later after figure out wechat login issue
+// Reference: https://www.prisma.io/tutorials/authentication-in-apollo-server-ct21
+// const autheticate = async (resolve, root, args, context, info) => {
+//   let token;
+//   try {
+//       token = jwt.verify(context.request.get("Authorization"), process.env["YOGA_SECRET"]);
+//   } catch (e) {
+//       return new AuthenticationError("Not authorised");
+//   }
+//   const result = await resolve(root, args, context, info);
+//   return result;
+// };
 
 const server = new GraphQLServer({
   typeDefs: "./src/schema.graphql",
@@ -138,7 +139,7 @@ const server = new GraphQLServer({
   context: {
     prisma
   },
-  middlewares: [autheticate]
+  // middlewares: [autheticate]
 });
 
 server.start(() => console.log("Server is running on http://localhost:4000"));
