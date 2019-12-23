@@ -20,6 +20,6 @@ var models = [
 exports.Prisma = prisma_lib_1.makePrismaClientClass({
   typeDefs,
   models,
-  endpoint: `https://rocky-tor-62300.herokuapp.com`
+  endpoint: `https://rocky-tor-62300.herokuapp.com/prod`
 });
 exports.prisma = new exports.Prisma();
