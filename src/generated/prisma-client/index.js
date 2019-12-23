@@ -20,6 +20,7 @@ var models = [
 exports.Prisma = prisma_lib_1.makePrismaClientClass({
   typeDefs,
   models,
-  endpoint: `https://melbookshare-a60a64c5ac.herokuapp.com/api/v1`
+  endpoint: `https://melbookshare-a60a64c5ac.herokuapp.com/api/v1`,
+  secret: `${process.env["PRISMA_SECRET"]}`
 });
 exports.prisma = new exports.Prisma();

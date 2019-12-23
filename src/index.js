@@ -118,12 +118,24 @@ const resolvers = {
   }
 };
 
+const autheticate = async (resolve, root, args, context, info) => {
+  let token;
+  try {
+      token = jwt.verify(context.request.get("Authorization"), "secret");
+  } catch (e) {
+      return new AuthenticationError("Not authorised");
+  }
+  const result = await resolve(root, args, context, info);
+  return result;
+};
+
 const server = new GraphQLServer({
   typeDefs: "./src/schema.graphql",
   resolvers,
   context: {
     prisma
-  }
+  },
+  middlewares: [autheticate]
 });
 
 server.start(() => console.log("Server is running on http://localhost:4000"));
