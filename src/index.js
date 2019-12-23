@@ -135,7 +135,8 @@ const server = new GraphQLServer({
   resolvers,
   context: {
     prisma
-  }
+  },
+  middlewares: [autheticate]
 });
 
 server.start(() => console.log("Server is running on http://localhost:4000"));
