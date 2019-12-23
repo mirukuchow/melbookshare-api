@@ -1,5 +1,5 @@
 # Specifies the HTTP endpoint of your Prisma API (deployed to a Prisma Demo server).
-endpoint: http://localhost:4466
+endpoint: https://rocky-tor-62300.herokuapp.com
 
 # Defines your models, each model is mapped to the database as a table.
 datamodel: datamodel.prisma
