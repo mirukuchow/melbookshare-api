@@ -122,7 +122,7 @@ const resolvers = {
 const autheticate = async (resolve, root, args, context, info) => {
   let token;
   try {
-      token = jwt.verify(context.request.get("Authorization"), "secret");
+      token = jwt.verify(context.request.get("Authorization"), "Authorization");
   } catch (e) {
       return new AuthenticationError("Not authorised");
   }
