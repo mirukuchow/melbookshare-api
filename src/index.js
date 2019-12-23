@@ -1,5 +1,5 @@
 const { GraphQLServer } = require("graphql-yoga");
-import * as jwt from "jsonwebtoken";
+const jwt = require("jsonwebtoken");
 const { AuthenticationError } =require("apollo-server-core");
 
 const { prisma } = require("./generated/prisma-client");
