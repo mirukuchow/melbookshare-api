@@ -1,5 +1,6 @@
 const { GraphQLServer } = require("graphql-yoga");
 const { prisma } = require("./generated/prisma-client");
+import { AuthenticationError } from "apollo-server-core";
 
 const resolvers = {
   Query: {
