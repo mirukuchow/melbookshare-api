@@ -1,5 +1,6 @@
 const { GraphQLServer } = require("graphql-yoga");
 const { prisma } = require("./generated/prisma-client");
+import { AuthenticationError } from "apollo-server-core";
 
 const resolvers = {
   Query: {
@@ -116,6 +117,17 @@ const resolvers = {
       return context.prisma.copies({ where: { ownerId: parent.ownerId } });
     }
   }
+};
+
+const autheticate = async (resolve, root, args, context, info) => {
+  let token;
+  try {
+      token = jwt.verify(context.request.get("Authorization"), process.env["YOGA_SECRET"]);
+  } catch (e) {
+      return new AuthenticationError("Not authorised");
+  }
+  const result = await resolve(root, args, context, info);
+  return result;
 };
 
 const server = new GraphQLServer({
