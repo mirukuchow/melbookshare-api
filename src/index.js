@@ -65,7 +65,7 @@ const resolvers = {
     ) {
       // https://github.com/prisma/prisma/issues/2194
       const bookExists = await prisma.$exists.book({ sourceId });
-      const userExists = await prisma.$exists.user({ id: ownerId });
+      const userExists = await prisma.$exists.user({ userid: ownerId });
 
       return context.prisma.createCopy({
         price,

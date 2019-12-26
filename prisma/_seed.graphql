@@ -1,30 +1,115 @@
 mutation {
-  post1: createPost(
-    data: {
-      title: "Join us for GraphQL Conf 2019 in Berlin"
-      content: "https://www.graphqlconf.org/"
-      published: true
-    }
+  copy1: addCopy(
+    sourceId:"34430678",
+    ownerId:"123"
+    price:"10"
+    title:"猫国物语（十周年纪念珍藏版）"
+    condition:"全新"
+    comment:"很治愈喵"
+    contact:"微信号milkgloo"
+    location:"墨尔本"
+    image:"https://img1.doubanio.com/view/subject/m/public/s33470067.jpg"
+    author:"[日]莫莉蓟野"
+    rating: 9.3
+    alias:"失眠的泡泡"
+    avatar:"https://images-na.ssl-images-amazon.com/images/I/41d2XB1LcnL.jpg"
   ) {
     id
   }
 
-  post2: createPost(
-    data: {
-      title: "Subscribe to GraphQL Weekly for community news"
-      content: "https://graphqlweekly.com/"
-      published: true
-    }
+  copy2: addCopy(
+    sourceId:"26279028",
+    ownerId:"123"
+    price:"20"
+    title:"面包和汤和猫咪好天气"
+    condition:"九成新"
+    comment:"一个女人、一只猫、一家只卖面包和汤的店——。将清新的文字献给：生活在嘈杂纷繁中、渴求内心平静的都市青年。"
+    contact:"微信号milkgloo"
+    location:"墨尔本"
+    image:"https://img3.doubanio.com/view/subject/m/public/s28020050.jpg"
+    author:"[日]群阳子"
+    rating: 7.6
+    alias:"失眠的泡泡"
+    avatar:"https://images-na.ssl-images-amazon.com/images/I/41d2XB1LcnL.jpg"
   ) {
     id
   }
 
-  post3: createPost(
-    data: {
-      title: "Follow Prisma on Twitter"
-      content: "https://twitter.com/prisma"
-    }
+  copy3: addCopy(
+    sourceId:"25774980",
+    ownerId:"456"
+    price:"5"
+    title:"80个人类最想问的喵什么"
+    condition:"九成新"
+    comment:"猫为什么会呼噜呼噜？"
+    contact:"0405813999"
+    location:"moge星球"
+    image:"https://img3.doubanio.com/view/subject/m/public/s28020050.jpg"
+    author:"[英]德斯蒙德·莫利斯"
+    rating: 8.3
+    alias:"查理"
+    avatar:"https://hanbeewoo.files.wordpress.com/2016/11/ec96b4ed94bcecb998.png?w=702"
   ) {
     id
   }
 }
+
+# mutation addCopy1 {
+#   addCopy (
+#     sourceId:"34430678",
+#     ownerId:"123"
+#     price:"10"
+#     title:"猫国物语（十周年纪念珍藏版）"
+#     condition:"全新"
+#     comment:"很治愈喵"
+#     contact:"微信号milkgloo"
+#     location:"墨尔本"
+#     image:"https://img1.doubanio.com/view/subject/m/public/s33470067.jpg"
+#     author:"[日]莫莉蓟野"
+#     rating: 9.3
+#     alias:"失眠的泡泡"
+#     avatar:"https://images-na.ssl-images-amazon.com/images/I/41d2XB1LcnL.jpg"
+#   ) {
+#     id
+#   }
+# }
+
+# mutation addCopy2 {
+#   addCopy (
+#     sourceId:"26279028",
+#     ownerId:"123"
+#     price:"20"
+#     title:"面包和汤和猫咪好天气"
+#     condition:"九成新"
+#     comment:"一个女人、一只猫、一家只卖面包和汤的店——。将清新的文字献给：生活在嘈杂纷繁中、渴求内心平静的都市青年。"
+#     contact:"微信号milkgloo"
+#     location:"墨尔本"
+#     image:"https://img3.doubanio.com/view/subject/m/public/s28020050.jpg"
+#     author:"[日]群阳子"
+#     rating: 7.6
+#     alias:"失眠的泡泡"
+#     avatar:"https://images-na.ssl-images-amazon.com/images/I/41d2XB1LcnL.jpg"
+#   ) {
+#     id
+#   }
+# }
+
+# mutation addCopy3 {
+#   addCopy (
+#     sourceId:"25774980",
+#     ownerId:"456"
+#     price:"5"
+#     title:"80个人类最想问的喵什么"
+#     condition:"九成新"
+#     comment:"猫为什么会呼噜呼噜？"
+#     contact:"0405813999"
+#     location:"moge星球"
+#     image:"https://img3.doubanio.com/view/subject/m/public/s28020050.jpg"
+#     author:"[英]德斯蒙德·莫利斯"
+#     rating: 8.3
+#     alias:"查理"
+#     avatar:"https://hanbeewoo.files.wordpress.com/2016/11/ec96b4ed94bcecb998.png?w=702"
+#   ) {
+#     id
+#   }
+# }
