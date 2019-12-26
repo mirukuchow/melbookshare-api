@@ -2,6 +2,9 @@
   "name": "melbookshare-api",
   "scripts": {
     "start": "node src/index.js",
+    "start:prod": "pm2 -s start --name=melbookshare-api src/index.js",
+    "restart:prod": "pm2 -s restart melbookshare-api",
+    "stop:prod": "pm2 -s delete melbookshare-api",
     "prisma": "prisma"
   },
   "dependencies": {

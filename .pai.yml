@@ -1,0 +1,11 @@
+deployScripts:
+  start:
+    - npm install
+    - npm run start:prod
+  delete:
+    - npm run stop:prod
+  restart:
+    - npm install
+    - sleep 3
+    - sh auto/restart.sh
+    - npm run restart:prod
