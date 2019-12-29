@@ -14,7 +14,7 @@ type Copy {
 type Book {
   id: ID! @id
   title: String!
-  sourceId: ID!
+  sourceId: ID! @unique
   image: String
   author: String
   rating: Float
@@ -23,7 +23,7 @@ type Book {
 
 type User {
   id: ID! @id
-  userId: ID!
+  userId: ID! @unique
   alias: String!
   avatar: String
   ownedBooks: [Copy] @relation(name: "CopyToOwner", onDelete: CASCADE)

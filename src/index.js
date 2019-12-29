@@ -9,11 +9,14 @@ const resolvers = {
     searchBook: (parent, { q }, context) => {
       return context.prisma.books({
         where: {
-          AND: [{
-            title_starts_with: q
-          }, {
-            author_starts_with: q
-          }]
+          AND: [
+            {
+              title_starts_with: q
+            },
+            {
+              author_starts_with: q
+            }
+          ]
         }
       });
     },
@@ -75,26 +78,39 @@ const resolvers = {
         comment,
         contact,
         location,
-        ...(!userExists && {
-          owner: {
-            create: {
-              userId: ownerId,
-              alias,
-              avatar
-            }
-          }
-        }),
-        ...(!bookExists && {
-          book: {
-            create: {
-              sourceId,
-              image,
-              author,
-              rating,
-              title
-            }
-          }
-        })
+        owner: {
+          ...(userExists
+            ? {
+                connect: {
+                  userId: ownerId 
+                }
+              }
+            : {
+                create: {
+                  userId: ownerId,
+                  alias,
+                  avatar
+                }
+              })
+        },
+        book: {
+          ...(bookExists
+            ? {
+                connect: {
+                  sourceId
+                }
+              }
+            : {
+                create: {
+                  sourceId,
+                  image,
+                  author,
+                  rating,
+                  title
+                }
+              })
+        }
+        // TODO: fix this problem
       });
     }
   },
@@ -115,7 +131,7 @@ const resolvers = {
   },
   User: {
     ownedBooks(parent, _, context) {
-      return context.prisma.copies({ where: { ownerId: parent.ownerId } });
+      return context.prisma.copies({ where: { ownerId: parent.userId } });
     }
   }
 };
@@ -138,8 +154,8 @@ const server = new GraphQLServer({
   resolvers,
   context: {
     prisma
-  },
+  }
   // middlewares: [autheticate]
 });
-server.start({port: 3000})
+server.start({ port: 3000 });
 console.log("Server is running on http://localhost:3000");

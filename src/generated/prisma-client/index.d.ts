@@ -234,6 +234,7 @@ export interface UserUpdateOneWithoutOwnedBooksInput {
 
 export type BookWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
+  sourceId?: Maybe<ID_Input>;
 }>;
 
 export interface CopyUpsertWithWhereUniqueWithoutBookInput {
@@ -826,6 +827,7 @@ export interface BookUpdateOneWithoutAvailableBooksInput {
 
 export type UserWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
+  userId?: Maybe<ID_Input>;
 }>;
 
 export interface CopyUpdateManyDataInput {

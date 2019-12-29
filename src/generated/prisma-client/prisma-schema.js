@@ -234,6 +234,7 @@ input BookWhereInput {
 
 input BookWhereUniqueInput {
   id: ID
+  sourceId: ID
 }
 
 type Copy {
@@ -936,6 +937,7 @@ input UserWhereInput {
 
 input UserWhereUniqueInput {
   id: ID
+  userId: ID
 }
 `
       }
