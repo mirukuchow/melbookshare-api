@@ -12,7 +12,7 @@ type Mutation {
     ownerId: ID!
     price: String!
     title: String!
-    condition: String
+    condition: Condition
     comment: String
     contact: String!
     location: String
@@ -25,7 +25,7 @@ type Mutation {
 
   updateCopy(
     price: String!
-    condition: String
+    condition: Condition
     comment: String
     contact: String!
     location: String
@@ -39,7 +39,7 @@ type Copy {
   sourceId: ID,
   ownerId: ID,
   price: String!
-  condition: String!
+  condition: Condition!
   comment: String
   contact: String!
   location: String
@@ -63,4 +63,13 @@ type User {
   alias: String!
   avatar: String
   ownedBooks: [Copy]
+}
+
+enum Condition {
+  AS_NEW
+  FINE
+  VERY_GOOD
+  GOOD
+  FAIR
+  POOR
 }

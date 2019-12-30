@@ -237,12 +237,21 @@ input BookWhereUniqueInput {
   sourceId: ID
 }
 
+enum Condition {
+  AS_NEW
+  FINE
+  VERY_GOOD
+  GOOD
+  FAIR
+  POOR
+}
+
 type Copy {
   id: ID!
   sourceId: ID
   ownerId: ID
   price: String!
-  condition: String!
+  condition: Condition!
   comment: String
   contact: String!
   location: String
@@ -261,7 +270,7 @@ input CopyCreateInput {
   sourceId: ID
   ownerId: ID
   price: String!
-  condition: String!
+  condition: Condition!
   comment: String
   contact: String!
   location: String
@@ -284,7 +293,7 @@ input CopyCreateWithoutBookInput {
   sourceId: ID
   ownerId: ID
   price: String!
-  condition: String!
+  condition: Condition!
   comment: String
   contact: String!
   location: String
@@ -296,7 +305,7 @@ input CopyCreateWithoutOwnerInput {
   sourceId: ID
   ownerId: ID
   price: String!
-  condition: String!
+  condition: Condition!
   comment: String
   contact: String!
   location: String
@@ -332,7 +341,7 @@ type CopyPreviousValues {
   sourceId: ID
   ownerId: ID
   price: String!
-  condition: String!
+  condition: Condition!
   comment: String
   contact: String!
   location: String
@@ -395,20 +404,10 @@ input CopyScalarWhereInput {
   price_not_starts_with: String
   price_ends_with: String
   price_not_ends_with: String
-  condition: String
-  condition_not: String
-  condition_in: [String!]
-  condition_not_in: [String!]
-  condition_lt: String
-  condition_lte: String
-  condition_gt: String
-  condition_gte: String
-  condition_contains: String
-  condition_not_contains: String
-  condition_starts_with: String
-  condition_not_starts_with: String
-  condition_ends_with: String
-  condition_not_ends_with: String
+  condition: Condition
+  condition_not: Condition
+  condition_in: [Condition!]
+  condition_not_in: [Condition!]
   comment: String
   comment_not: String
   comment_in: [String!]
@@ -478,7 +477,7 @@ input CopyUpdateInput {
   sourceId: ID
   ownerId: ID
   price: String
-  condition: String
+  condition: Condition
   comment: String
   contact: String
   location: String
@@ -490,7 +489,7 @@ input CopyUpdateManyDataInput {
   sourceId: ID
   ownerId: ID
   price: String
-  condition: String
+  condition: Condition
   comment: String
   contact: String
   location: String
@@ -500,7 +499,7 @@ input CopyUpdateManyMutationInput {
   sourceId: ID
   ownerId: ID
   price: String
-  condition: String
+  condition: Condition
   comment: String
   contact: String
   location: String
@@ -539,7 +538,7 @@ input CopyUpdateWithoutBookDataInput {
   sourceId: ID
   ownerId: ID
   price: String
-  condition: String
+  condition: Condition
   comment: String
   contact: String
   location: String
@@ -550,7 +549,7 @@ input CopyUpdateWithoutOwnerDataInput {
   sourceId: ID
   ownerId: ID
   price: String
-  condition: String
+  condition: Condition
   comment: String
   contact: String
   location: String
@@ -636,20 +635,10 @@ input CopyWhereInput {
   price_not_starts_with: String
   price_ends_with: String
   price_not_ends_with: String
-  condition: String
-  condition_not: String
-  condition_in: [String!]
-  condition_not_in: [String!]
-  condition_lt: String
-  condition_lte: String
-  condition_gt: String
-  condition_gte: String
-  condition_contains: String
-  condition_not_contains: String
-  condition_starts_with: String
-  condition_not_starts_with: String
-  condition_ends_with: String
-  condition_not_ends_with: String
+  condition: Condition
+  condition_not: Condition
+  condition_in: [Condition!]
+  condition_not_in: [Condition!]
   comment: String
   comment_not: String
   comment_in: [String!]

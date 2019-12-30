@@ -179,6 +179,14 @@ export interface ClientConstructor<T> {
  * Types
  */
 
+export type Condition =
+  | "AS_NEW"
+  | "FINE"
+  | "VERY_GOOD"
+  | "GOOD"
+  | "FAIR"
+  | "POOR";
+
 export type CopyOrderByInput =
   | "id_ASC"
   | "id_DESC"
@@ -223,13 +231,15 @@ export type UserOrderByInput =
 
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
-export interface UserUpdateOneWithoutOwnedBooksInput {
-  create?: Maybe<UserCreateWithoutOwnedBooksInput>;
-  update?: Maybe<UserUpdateWithoutOwnedBooksDataInput>;
-  upsert?: Maybe<UserUpsertWithoutOwnedBooksInput>;
-  delete?: Maybe<Boolean>;
-  disconnect?: Maybe<Boolean>;
-  connect?: Maybe<UserWhereUniqueInput>;
+export interface CopyUpdateWithoutBookDataInput {
+  sourceId?: Maybe<ID_Input>;
+  ownerId?: Maybe<ID_Input>;
+  price?: Maybe<String>;
+  condition?: Maybe<Condition>;
+  comment?: Maybe<String>;
+  contact?: Maybe<String>;
+  location?: Maybe<String>;
+  owner?: Maybe<UserUpdateOneWithoutOwnedBooksInput>;
 }
 
 export type BookWhereUniqueInput = AtLeastOne<{
@@ -387,20 +397,10 @@ export interface CopyScalarWhereInput {
   price_not_starts_with?: Maybe<String>;
   price_ends_with?: Maybe<String>;
   price_not_ends_with?: Maybe<String>;
-  condition?: Maybe<String>;
-  condition_not?: Maybe<String>;
-  condition_in?: Maybe<String[] | String>;
-  condition_not_in?: Maybe<String[] | String>;
-  condition_lt?: Maybe<String>;
-  condition_lte?: Maybe<String>;
-  condition_gt?: Maybe<String>;
-  condition_gte?: Maybe<String>;
-  condition_contains?: Maybe<String>;
-  condition_not_contains?: Maybe<String>;
-  condition_starts_with?: Maybe<String>;
-  condition_not_starts_with?: Maybe<String>;
-  condition_ends_with?: Maybe<String>;
-  condition_not_ends_with?: Maybe<String>;
+  condition?: Maybe<Condition>;
+  condition_not?: Maybe<Condition>;
+  condition_in?: Maybe<Condition[] | Condition>;
+  condition_not_in?: Maybe<Condition[] | Condition>;
   comment?: Maybe<String>;
   comment_not?: Maybe<String>;
   comment_in?: Maybe<String[] | String>;
@@ -505,20 +505,10 @@ export interface CopyWhereInput {
   price_not_starts_with?: Maybe<String>;
   price_ends_with?: Maybe<String>;
   price_not_ends_with?: Maybe<String>;
-  condition?: Maybe<String>;
-  condition_not?: Maybe<String>;
-  condition_in?: Maybe<String[] | String>;
-  condition_not_in?: Maybe<String[] | String>;
-  condition_lt?: Maybe<String>;
-  condition_lte?: Maybe<String>;
-  condition_gt?: Maybe<String>;
-  condition_gte?: Maybe<String>;
-  condition_contains?: Maybe<String>;
-  condition_not_contains?: Maybe<String>;
-  condition_starts_with?: Maybe<String>;
-  condition_not_starts_with?: Maybe<String>;
-  condition_ends_with?: Maybe<String>;
-  condition_not_ends_with?: Maybe<String>;
+  condition?: Maybe<Condition>;
+  condition_not?: Maybe<Condition>;
+  condition_in?: Maybe<Condition[] | Condition>;
+  condition_not_in?: Maybe<Condition[] | Condition>;
   comment?: Maybe<String>;
   comment_not?: Maybe<String>;
   comment_in?: Maybe<String[] | String>;
@@ -573,7 +563,7 @@ export interface CopyCreateWithoutBookInput {
   sourceId?: Maybe<ID_Input>;
   ownerId?: Maybe<ID_Input>;
   price: String;
-  condition: String;
+  condition: Condition;
   comment?: Maybe<String>;
   contact: String;
   location?: Maybe<String>;
@@ -652,7 +642,7 @@ export interface CopyUpdateWithoutOwnerDataInput {
   sourceId?: Maybe<ID_Input>;
   ownerId?: Maybe<ID_Input>;
   price?: Maybe<String>;
-  condition?: Maybe<String>;
+  condition?: Maybe<Condition>;
   comment?: Maybe<String>;
   contact?: Maybe<String>;
   location?: Maybe<String>;
@@ -669,15 +659,9 @@ export interface CopyUpdateWithWhereUniqueWithoutOwnerInput {
   data: CopyUpdateWithoutOwnerDataInput;
 }
 
-export interface CopyUpdateWithoutBookDataInput {
-  sourceId?: Maybe<ID_Input>;
-  ownerId?: Maybe<ID_Input>;
-  price?: Maybe<String>;
-  condition?: Maybe<String>;
-  comment?: Maybe<String>;
-  contact?: Maybe<String>;
-  location?: Maybe<String>;
-  owner?: Maybe<UserUpdateOneWithoutOwnedBooksInput>;
+export interface BookUpsertWithoutAvailableBooksInput {
+  update: BookUpdateWithoutAvailableBooksDataInput;
+  create: BookCreateWithoutAvailableBooksInput;
 }
 
 export interface UserUpdateInput {
@@ -687,9 +671,13 @@ export interface UserUpdateInput {
   ownedBooks?: Maybe<CopyUpdateManyWithoutOwnerInput>;
 }
 
-export interface BookUpsertWithoutAvailableBooksInput {
-  update: BookUpdateWithoutAvailableBooksDataInput;
-  create: BookCreateWithoutAvailableBooksInput;
+export interface UserUpdateOneWithoutOwnedBooksInput {
+  create?: Maybe<UserCreateWithoutOwnedBooksInput>;
+  update?: Maybe<UserUpdateWithoutOwnedBooksDataInput>;
+  upsert?: Maybe<UserUpsertWithoutOwnedBooksInput>;
+  delete?: Maybe<Boolean>;
+  disconnect?: Maybe<Boolean>;
+  connect?: Maybe<UserWhereUniqueInput>;
 }
 
 export interface CopyCreateWithoutOwnerInput {
@@ -697,7 +685,7 @@ export interface CopyCreateWithoutOwnerInput {
   sourceId?: Maybe<ID_Input>;
   ownerId?: Maybe<ID_Input>;
   price: String;
-  condition: String;
+  condition: Condition;
   comment?: Maybe<String>;
   contact: String;
   location?: Maybe<String>;
@@ -834,7 +822,7 @@ export interface CopyUpdateManyDataInput {
   sourceId?: Maybe<ID_Input>;
   ownerId?: Maybe<ID_Input>;
   price?: Maybe<String>;
-  condition?: Maybe<String>;
+  condition?: Maybe<Condition>;
   comment?: Maybe<String>;
   contact?: Maybe<String>;
   location?: Maybe<String>;
@@ -844,7 +832,7 @@ export interface CopyUpdateManyMutationInput {
   sourceId?: Maybe<ID_Input>;
   ownerId?: Maybe<ID_Input>;
   price?: Maybe<String>;
-  condition?: Maybe<String>;
+  condition?: Maybe<Condition>;
   comment?: Maybe<String>;
   contact?: Maybe<String>;
   location?: Maybe<String>;
@@ -855,7 +843,7 @@ export interface CopyCreateInput {
   sourceId?: Maybe<ID_Input>;
   ownerId?: Maybe<ID_Input>;
   price: String;
-  condition: String;
+  condition: Condition;
   comment?: Maybe<String>;
   contact: String;
   location?: Maybe<String>;
@@ -876,7 +864,7 @@ export interface CopyUpdateInput {
   sourceId?: Maybe<ID_Input>;
   ownerId?: Maybe<ID_Input>;
   price?: Maybe<String>;
-  condition?: Maybe<String>;
+  condition?: Maybe<Condition>;
   comment?: Maybe<String>;
   contact?: Maybe<String>;
   location?: Maybe<String>;
@@ -994,7 +982,7 @@ export interface Copy {
   sourceId?: ID_Output;
   ownerId?: ID_Output;
   price: String;
-  condition: String;
+  condition: Condition;
   comment?: String;
   contact: String;
   location?: String;
@@ -1005,7 +993,7 @@ export interface CopyPromise extends Promise<Copy>, Fragmentable {
   sourceId: () => Promise<ID_Output>;
   ownerId: () => Promise<ID_Output>;
   price: () => Promise<String>;
-  condition: () => Promise<String>;
+  condition: () => Promise<Condition>;
   comment: () => Promise<String>;
   contact: () => Promise<String>;
   location: () => Promise<String>;
@@ -1020,7 +1008,7 @@ export interface CopySubscription
   sourceId: () => Promise<AsyncIterator<ID_Output>>;
   ownerId: () => Promise<AsyncIterator<ID_Output>>;
   price: () => Promise<AsyncIterator<String>>;
-  condition: () => Promise<AsyncIterator<String>>;
+  condition: () => Promise<AsyncIterator<Condition>>;
   comment: () => Promise<AsyncIterator<String>>;
   contact: () => Promise<AsyncIterator<String>>;
   location: () => Promise<AsyncIterator<String>>;
@@ -1035,7 +1023,7 @@ export interface CopyNullablePromise
   sourceId: () => Promise<ID_Output>;
   ownerId: () => Promise<ID_Output>;
   price: () => Promise<String>;
-  condition: () => Promise<String>;
+  condition: () => Promise<Condition>;
   comment: () => Promise<String>;
   contact: () => Promise<String>;
   location: () => Promise<String>;
@@ -1124,7 +1112,7 @@ export interface CopyPreviousValues {
   sourceId?: ID_Output;
   ownerId?: ID_Output;
   price: String;
-  condition: String;
+  condition: Condition;
   comment?: String;
   contact: String;
   location?: String;
@@ -1137,7 +1125,7 @@ export interface CopyPreviousValuesPromise
   sourceId: () => Promise<ID_Output>;
   ownerId: () => Promise<ID_Output>;
   price: () => Promise<String>;
-  condition: () => Promise<String>;
+  condition: () => Promise<Condition>;
   comment: () => Promise<String>;
   contact: () => Promise<String>;
   location: () => Promise<String>;
@@ -1150,7 +1138,7 @@ export interface CopyPreviousValuesSubscription
   sourceId: () => Promise<AsyncIterator<ID_Output>>;
   ownerId: () => Promise<AsyncIterator<ID_Output>>;
   price: () => Promise<AsyncIterator<String>>;
-  condition: () => Promise<AsyncIterator<String>>;
+  condition: () => Promise<AsyncIterator<Condition>>;
   comment: () => Promise<AsyncIterator<String>>;
   contact: () => Promise<AsyncIterator<String>>;
   location: () => Promise<AsyncIterator<String>>;
@@ -1540,6 +1528,10 @@ export const models: Model[] = [
   },
   {
     name: "User",
+    embedded: false
+  },
+  {
+    name: "Condition",
     embedded: false
   }
 ];
