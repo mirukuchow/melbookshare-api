@@ -250,7 +250,7 @@ type Copy {
   id: ID!
   sourceId: ID
   ownerId: ID
-  price: String!
+  price: Float
   condition: Condition!
   comment: String
   contact: String!
@@ -269,7 +269,7 @@ input CopyCreateInput {
   id: ID
   sourceId: ID
   ownerId: ID
-  price: String!
+  price: Float
   condition: Condition!
   comment: String
   contact: String!
@@ -292,7 +292,7 @@ input CopyCreateWithoutBookInput {
   id: ID
   sourceId: ID
   ownerId: ID
-  price: String!
+  price: Float
   condition: Condition!
   comment: String
   contact: String!
@@ -304,7 +304,7 @@ input CopyCreateWithoutOwnerInput {
   id: ID
   sourceId: ID
   ownerId: ID
-  price: String!
+  price: Float
   condition: Condition!
   comment: String
   contact: String!
@@ -340,7 +340,7 @@ type CopyPreviousValues {
   id: ID!
   sourceId: ID
   ownerId: ID
-  price: String!
+  price: Float
   condition: Condition!
   comment: String
   contact: String!
@@ -390,20 +390,14 @@ input CopyScalarWhereInput {
   ownerId_not_starts_with: ID
   ownerId_ends_with: ID
   ownerId_not_ends_with: ID
-  price: String
-  price_not: String
-  price_in: [String!]
-  price_not_in: [String!]
-  price_lt: String
-  price_lte: String
-  price_gt: String
-  price_gte: String
-  price_contains: String
-  price_not_contains: String
-  price_starts_with: String
-  price_not_starts_with: String
-  price_ends_with: String
-  price_not_ends_with: String
+  price: Float
+  price_not: Float
+  price_in: [Float!]
+  price_not_in: [Float!]
+  price_lt: Float
+  price_lte: Float
+  price_gt: Float
+  price_gte: Float
   condition: Condition
   condition_not: Condition
   condition_in: [Condition!]
@@ -476,7 +470,7 @@ input CopySubscriptionWhereInput {
 input CopyUpdateInput {
   sourceId: ID
   ownerId: ID
-  price: String
+  price: Float
   condition: Condition
   comment: String
   contact: String
@@ -488,7 +482,7 @@ input CopyUpdateInput {
 input CopyUpdateManyDataInput {
   sourceId: ID
   ownerId: ID
-  price: String
+  price: Float
   condition: Condition
   comment: String
   contact: String
@@ -498,7 +492,7 @@ input CopyUpdateManyDataInput {
 input CopyUpdateManyMutationInput {
   sourceId: ID
   ownerId: ID
-  price: String
+  price: Float
   condition: Condition
   comment: String
   contact: String
@@ -537,7 +531,7 @@ input CopyUpdateManyWithWhereNestedInput {
 input CopyUpdateWithoutBookDataInput {
   sourceId: ID
   ownerId: ID
-  price: String
+  price: Float
   condition: Condition
   comment: String
   contact: String
@@ -548,7 +542,7 @@ input CopyUpdateWithoutBookDataInput {
 input CopyUpdateWithoutOwnerDataInput {
   sourceId: ID
   ownerId: ID
-  price: String
+  price: Float
   condition: Condition
   comment: String
   contact: String
@@ -621,20 +615,14 @@ input CopyWhereInput {
   ownerId_not_starts_with: ID
   ownerId_ends_with: ID
   ownerId_not_ends_with: ID
-  price: String
-  price_not: String
-  price_in: [String!]
-  price_not_in: [String!]
-  price_lt: String
-  price_lte: String
-  price_gt: String
-  price_gte: String
-  price_contains: String
-  price_not_contains: String
-  price_starts_with: String
-  price_not_starts_with: String
-  price_ends_with: String
-  price_not_ends_with: String
+  price: Float
+  price_not: Float
+  price_in: [Float!]
+  price_not_in: [Float!]
+  price_lt: Float
+  price_lte: Float
+  price_gt: Float
+  price_gte: Float
   condition: Condition
   condition_not: Condition
   condition_in: [Condition!]

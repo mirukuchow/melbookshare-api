@@ -2,7 +2,7 @@ type Copy {
   id: ID! @id
   sourceId: ID,
   ownerId: ID,
-  price: String!
+  price: Float
   condition: Condition!
   comment: String
   contact: String!
@@ -28,7 +28,6 @@ type User {
   avatar: String
   ownedBooks: [Copy] @relation(name: "CopyToOwner", onDelete: CASCADE)
 }
-
 
 enum Condition {
   AS_NEW

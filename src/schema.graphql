@@ -10,7 +10,7 @@ type Mutation {
   addCopy(
     sourceId: ID!
     ownerId: ID!
-    price: String!
+    price: Float
     title: String!
     condition: Condition
     comment: String
@@ -24,7 +24,7 @@ type Mutation {
   ): Copy
 
   updateCopy(
-    price: String!
+    price: Float
     condition: Condition
     comment: String
     contact: String!
@@ -38,7 +38,7 @@ type Copy {
   id: ID!
   sourceId: ID,
   ownerId: ID,
-  price: String!
+  price: Float
   condition: Condition!
   comment: String
   contact: String!
