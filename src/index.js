@@ -9,7 +9,7 @@ const resolvers = {
     searchBook: (parent, { q }, context) => {
       return context.prisma.books({
         where: {
-          AND: [
+          OR: [
             {
               title_starts_with: q
             },
